@@ -4,12 +4,11 @@ header {
 .top-header {
   background-color: $secondary-color;
   padding: 10px 0px;
-  @media (max-width:767px) {
+  @media (max-width: 767px) {
     display: none;
   }
   form {
     position: relative;
- 
   }
   input {
     width: 100%;
@@ -60,7 +59,7 @@ header {
     li {
       display: inline-block;
       padding: 0px 10px;
-      &:first-child{
+      &:first-child {
         padding: 0px 10px 0px 0px !important;
       }
       text-decoration: none;
@@ -105,33 +104,28 @@ header {
   .navbar-toggler {
     background-color: $secondary-color !important;
     color: white !important;
-    @media (max-width:440px) {
-   padding: 3px !important;
-   font-size: 16px !important;     
+    @media (max-width: 440px) {
+      padding: 3px !important;
+      font-size: 16px !important;
     }
   }
   .navbar-toggler-icon {
     background-image: none !important;
     padding: 5px;
-    @media (max-width:440px) {
-      font-size: 16px !important;     
-       }
-    
+    @media (max-width: 440px) {
+      font-size: 16px !important;
+    }
   }
   figure {
     height: 64px;
-    width: 92px;
     overflow: hidden;
     margin: 0px !important;
-    @media (max-width:440px) {
+    @media (max-width: 440px) {
       height: 47px;
-      width: 63px;      
     }
-    @media (max-width: 330px)
- {
-    height: 37px;
-    width: 47px;
-}
+    @media (max-width: 330px) {
+      height: 37px;
+    }
     img {
       height: 100%;
       width: 100%;
@@ -175,7 +169,7 @@ header {
   }
 }
 .hover-dropdown-menu {
-    height: 70vh;
+  height: 70vh;
   visibility: hidden;
   opacity: 0;
   transition: visibility 0s, opacity 0.5s ease-in-out;
@@ -288,8 +282,8 @@ header {
       border: 1px solid #c8c8c8;
       margin-top: 2px;
     }
-    .terms-condition{
-      input{
+    .terms-condition {
+      input {
         margin-top: 0 !important;
       }
       display: flex;
@@ -365,14 +359,12 @@ header {
         font-weight: 500;
         font-size: 20px;
         line-height: 23px;
-        @media (max-width:480px) {
+        @media (max-width: 480px) {
           font-size: 16px;
           line-height: 16px;
-          
         }
-        @media (max-width:375px) {
+        @media (max-width: 375px) {
           font-size: 12px;
-          
         }
       }
       .facebook,
@@ -442,7 +434,6 @@ header {
       @media (max-width: 1199px) and (min-width: 991px) {
         font-size: 18px;
       }
-      
     }
   }
   .search-box {
@@ -452,7 +443,7 @@ header {
     right: -27px;
     width: 500px;
     display: none;
-    @media (max-width:1199px) {
+    @media (max-width: 1199px) {
       top: 57px;
       right: -39px;
     }
@@ -466,14 +457,13 @@ header {
     border-right: 12px solid transparent;
     border-top: 14px solid transparent;
     border-bottom: 14px solid #6b6b6b;
-
   }
   .search-box input[type="text"] {
     width: 100%;
-    padding: 0px 10px  !important;
+    padding: 0px 10px !important;
     outline: none;
     background: #e9ecef;
-    @media (max-width:1199px) {
+    @media (max-width: 1199px) {
       padding: 5px 10px !important;
     }
   }
@@ -486,7 +476,7 @@ header {
     outline: none;
     cursor: pointer;
     padding: 0px 10px !important;
-    @media (max-width:1199px) {
+    @media (max-width: 1199px) {
       padding: 5px 10px !important;
     }
   }
@@ -506,11 +496,11 @@ header {
   transition: all 0.5s ease-in-out;
 }
 
-.responsive-search-bar{
+.responsive-search-bar {
   display: none;
   position: relative;
   flex-grow: 1;
-  @media (max-width:767px) {
+  @media (max-width: 767px) {
     display: block;
   }
   input {
@@ -519,9 +509,9 @@ header {
     padding: 7px 20px;
     border: 1px solid $secondary-color;
     border-radius: 40px;
-    @media (max-width:440px) {
-      padding: 3px 5px ; 
-       }
+    @media (max-width: 440px) {
+      padding: 3px 5px;
+    }
     &::placeholder {
       color: $gray-color;
       font-size: 16px;
@@ -534,12 +524,11 @@ header {
     transform: translate(0, -50%);
     background: transparent;
     border: transparent;
-    @media (max-width:440px) {
+    @media (max-width: 440px) {
       font-size: 14px;
-       }
+    }
     i {
       color: $secondary-color;
     }
   }
-
 }

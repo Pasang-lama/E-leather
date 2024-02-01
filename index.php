@@ -3,12 +3,22 @@
     <div class="banner-slider">
         <div class="banner-slider-items">
             <figure>
-                <img class="w-100 d-block" src="images/banner.png" alt="">
+                <img class="w-100 d-block" src="images/banner.jpg" alt="">
             </figure>
         </div>
         <div class="banner-slider-items">
             <figure>
-                <img class="w-100 d-block" src="images/logo.png" alt="">
+                <img class="w-100 d-block" src="images/banner-1.jpg" alt="">
+            </figure>
+        </div>
+        <div class="banner-slider-items">
+            <figure>
+                <img class="w-100 d-block" src="images/banner-2.jpg" alt="">
+            </figure>
+        </div>
+        <div class="banner-slider-items">
+            <figure>
+                <img class="w-100 d-block" src="images/banner-3.jpg" alt="">
             </figure>
         </div>
     </div>
@@ -35,7 +45,7 @@
             </div>
             <div class="col-md-6 col-sm-12 about-left">
                 <figure>
-                    <img class="d-block w-100" src="images/banner.png" alt="">
+                    <img class="d-block w-100" src="images/banner.jpg" alt="">
                 </figure>
             </div>
         </div>
@@ -77,16 +87,7 @@
                     </div>
                     <div class="price text-center py-1"><span class="text-decoration-line-through text-muted pe-1">Rs.
                             5,000</span><span>Rs.2,000</span></div>
-                    <div class="add-to-cart-button">
-                        <form>
-                            <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-
-                            </div>
-                            <input type="number" id="number" value="0" />
-                            <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+
-                            </div>
-                            <button class="Add-to-card value-button">Add to Cart</button>
-                        </form>
-                    </div>
+                  
                 </div>
             </div>
             <div class="product-card">
@@ -119,16 +120,7 @@
                     </div>
                     <div class="price text-center py-1"><span class="text-decoration-line-through text-muted pe-1">Rs.
                             5,000</span><span>Rs.2,000</span></div>
-                    <div class="add-to-cart-button">
-                        <form>
-                            <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-
-                            </div>
-                            <input type="number" id="number" value="0" />
-                            <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+
-                            </div>
-                            <button class="Add-to-card value-button">Add to Cart</button>
-                        </form>
-                    </div>
+                  
                 </div>
             </div>
             <div class="product-card">
@@ -161,16 +153,7 @@
                     </div>
                     <div class="price text-center py-1"><span class="text-decoration-line-through text-muted pe-1">Rs.
                             5,000</span><span>Rs.2,000</span></div>
-                    <div class="add-to-cart-button">
-                        <form>
-                            <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-
-                            </div>
-                            <input type="number" id="number" value="0" />
-                            <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+
-                            </div>
-                            <button class="Add-to-card value-button">Add to Cart</button>
-                        </form>
-                    </div>
+                  
                 </div>
             </div>
             <div class="product-card">
@@ -203,16 +186,7 @@
                     </div>
                     <div class="price text-center py-1"><span class="text-decoration-line-through text-muted pe-1">Rs.
                             5,000</span><span>Rs.2,000</span></div>
-                    <div class="add-to-cart-button">
-                        <form>
-                            <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-
-                            </div>
-                            <input type="number" id="number" value="0" />
-                            <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+
-                            </div>
-                            <button class="Add-to-card value-button">Add to Cart</button>
-                        </form>
-                    </div>
+                  
                 </div>
             </div>
             <div class="product-card">
@@ -245,16 +219,7 @@
                     </div>
                     <div class="price text-center py-1"><span class="text-decoration-line-through text-muted pe-1">Rs.
                             5,000</span><span>Rs.2,000</span></div>
-                    <div class="add-to-cart-button">
-                        <form>
-                            <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-
-                            </div>
-                            <input type="number" id="number" value="0" />
-                            <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+
-                            </div>
-                            <button class="Add-to-card value-button">Add to Cart</button>
-                        </form>
-                    </div>
+                  
                 </div>
             </div>
         </div>
@@ -347,16 +312,7 @@
                     </div>
                     <div class="price text-center py-1"><span class="text-decoration-line-through text-muted pe-1">Rs.
                             5,000</span><span>Rs.2,000</span></div>
-                    <div class="add-to-cart-button">
-                        <form>
-                            <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-
-                            </div>
-                            <input type="number" id="number" value="0" />
-                            <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+
-                            </div>
-                            <button class="Add-to-card value-button">Add to Cart</button>
-                        </form>
-                    </div>
+                  
                 </div>
             </div>
             <div class="product-card">
@@ -389,16 +345,7 @@
                     </div>
                     <div class="price text-center py-1"><span class="text-decoration-line-through text-muted pe-1">Rs.
                             5,000</span><span>Rs.2,000</span></div>
-                    <div class="add-to-cart-button">
-                        <form>
-                            <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-
-                            </div>
-                            <input type="number" id="number" value="0" />
-                            <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+
-                            </div>
-                            <button class="Add-to-card value-button">Add to Cart</button>
-                        </form>
-                    </div>
+                  
                 </div>
             </div>
             <div class="product-card">
@@ -431,16 +378,7 @@
                     </div>
                     <div class="price text-center py-1"><span class="text-decoration-line-through text-muted pe-1">Rs.
                             5,000</span><span>Rs.2,000</span></div>
-                    <div class="add-to-cart-button">
-                        <form>
-                            <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-
-                            </div>
-                            <input type="number" id="number" value="0" />
-                            <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+
-                            </div>
-                            <button class="Add-to-card value-button">Add to Cart</button>
-                        </form>
-                    </div>
+                  
                 </div>
             </div>
             <div class="product-card">
@@ -473,16 +411,7 @@
                     </div>
                     <div class="price text-center py-1"><span class="text-decoration-line-through text-muted pe-1">Rs.
                             5,000</span><span>Rs.2,000</span></div>
-                    <div class="add-to-cart-button">
-                        <form>
-                            <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-
-                            </div>
-                            <input type="number" id="number" value="0" />
-                            <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+
-                            </div>
-                            <button class="Add-to-card value-button">Add to Cart</button>
-                        </form>
-                    </div>
+                  
                 </div>
             </div>
             <div class="product-card">
@@ -515,16 +444,7 @@
                     </div>
                     <div class="price text-center py-1"><span class="text-decoration-line-through text-muted pe-1">Rs.
                             5,000</span><span>Rs.2,000</span></div>
-                    <div class="add-to-cart-button">
-                        <form>
-                            <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-
-                            </div>
-                            <input type="number" id="number" value="0" />
-                            <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+
-                            </div>
-                            <button class="Add-to-card value-button">Add to Cart</button>
-                        </form>
-                    </div>
+                  
                 </div>
             </div>
         </div>

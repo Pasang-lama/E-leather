@@ -32,7 +32,7 @@
             </div>
             <div class="col-lg-5 col-md-6 col-sm-12">
                 <figure>
-                    <img class="d-block w-100" src="images/banner.png" alt="">
+                    <img class="d-block w-100" src="images/banner.jpg" alt="">
                 </figure>
             </div>
         </div>

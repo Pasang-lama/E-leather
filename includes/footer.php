@@ -31,6 +31,7 @@
                     <li><a href="">Return & Refunds</a></li>
                     <li><a href="">Terms & Condition</a></li>
                     <li><a href="">Privacy Policy</a></li>
+                    <li><a href="">Maintanance and Repare</a></li>
                 </ul>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-12">
@@ -55,13 +56,11 @@
     <div class="social-media">
             <a href=""><i class="fab fa-facebook"></i></a>
             <a href=""><i class="fab fa-instagram"></i></a>
-            <a href=""><i class="fab fa-tiktok"></i></a>
             <a href=""><i class="fab fa-youtube"></i></a>
     </div>
     <div class="container">
         <div class="copy-right">
          <p>Copyright © 2022 A1 Leathers Craft. All Rights Reserved.</p>
-         <p>Crafted by: <a href="https://www.ultrabyteit.com/" target="_blank">Ultrabyte</a></p>
         </div>
     </div>
 </footer>
