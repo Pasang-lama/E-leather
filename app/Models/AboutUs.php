@@ -13,5 +13,9 @@ class AboutUs extends Model
     protected $fillable = [
         "about_us_description",
         "about_us_image",
+        "about_us_metatitle",
+        "about_us_metakeyword",
+        "about_us_metadescription",
+        "about_us_schema"
     ];
 }

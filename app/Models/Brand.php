@@ -17,6 +17,10 @@ class Brand extends Model
         'description',
         'order',
         'logo',
-    ];    
+        'seo_title',
+        'seo_description',
+        'seo_keyword',
+        'schema'
+    ];
 
 }

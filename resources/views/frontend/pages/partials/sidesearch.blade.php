@@ -1,4 +1,4 @@
-<div class="prices categories">
+{{-- <div class="prices categories">
     <div class="categories-name">
         <h6>Suitable For</h6>
     </div>
@@ -14,19 +14,19 @@
             @endforeach
         </ul>
     </div>
-</div>
+</div> --}}
 
 @if($categories->isNotEmpty())
 <div class="prices categories mt-4">
     <div class="categories-name">
-        <h6>Category</h6>
+        <span>Category</span>
     </div>
     <div class="price-list">
         <ul>
             @foreach($categories as $category)
             <li class="checkbox"> <input type="checkbox" class="filter_categories"
                     id="filter_categories_{{ $loop->iteration}}" value="{{ $category['slug'] }}"
-                    @if($categorySlug==$category['slug']) {{ "checked=checked" }} @endif>
+                    @if($categorySlug == $category['slug']) {{ "checked=checked" }} @endif>
                 <label class="ps-3"
                     for="filter_categories_{{ $loop->iteration}}"><span>{{ $category['category_name'] }}</span></label>
             </li>
@@ -38,7 +38,7 @@
 
 <div class="prices price-range-slider categories mt-4">
     <div class="categories-name">
-        <h6>Filter by Price : <span id="selectedprice">{{ ($min_price) }}</span></h6>
+        <span>Filter by Price : <span id="selectedprice">{{ ($min_price) }}</span></span>
     </div>
     <div class="price-list ">
         <div class="min-max">
@@ -55,7 +55,7 @@
 
 <div class="prices categories mt-4">
     <div class="categories-name">
-        <h6>Size</h6>
+        <span>Size</span>
     </div>
     @if($sizes->isNotEmpty())
     <div class="price-list">

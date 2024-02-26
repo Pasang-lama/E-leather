@@ -36,7 +36,7 @@
                                           complaints, exchanges or any assistance.
                                        </p>
                                        <p style="margin-top:0; margin-bottom:10px">
-                                          Thank You. a-one-leather.com
+                                          Thank You.E-leather Nepal
                                        </p>
                                     </td>
                                  </tr>

@@ -5,19 +5,19 @@
                 <div class="col-lg-3 col-md-4 col-sm-12">
                     <ul class="social-media-icons">
                         @if ($setting_com->facebook_link != null)
-                            <li><a href="{{ $setting_com->facebook_link }}" target="_blank"><i
+                            <li><a href="{{ $setting_com->facebook_link }}" target="_blank" src="facebook"><i
                                         class="fab fa-facebook"></i></a></li>
                         @endif
                         @if ($setting_com->instagram_link != null)
-                            <li><a href="{{ $setting_com->instagram_link }}" target="_blank"><i
+                            <li><a href="{{ $setting_com->instagram_link }}" target="_blank" src="instagram"><i
                                         class="fab fa-instagram"></i></a></li>
                         @endif
                         @if ($setting_com->tiktok_link != null)
-                            <li><a href="{{ $setting_com->tiktok_link }}" target="_blank"><i
+                            <li><a href="{{ $setting_com->tiktok_link }}" target="_blank" src="tiktok"><i
                                         class="fab fa-tiktok"></i></a></li>
                         @endif
                         @if ($setting_com->youtube_link != null)
-                            <li><a href="{{ $setting_com->youtube_link }}" target="_blank"><i
+                            <li><a href="{{ $setting_com->youtube_link }}" target="_blank" src="youtube"><i
                                         class="fab fa-youtube"></i></a></li>
                         @endif
                     </ul>
@@ -31,7 +31,7 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-12 text-end">
                     <span>Available 24/7 at</span><br>
-                    <span>{{ $setting_com->mobile_number }}</span>
+                    <span>{!! getClickableLinks($setting_com->mobile_number, "phone") !!}</span>
                 </div>
             </div>
         </div>
@@ -62,6 +62,7 @@
                             <a class="nav-link {{ request()->is('about-us') ? 'active' : '' }}"
                                 href="{{ route('frontend.aboutus') }}">About us</a>
                         </li>
+
                         <li class="nav-item dropdown-hover">
                             <a class="nav-link {{ request()->is('products*') || request()->is('category*') ? 'active' : '' }} "
                                 href="javascript:void(0);">
@@ -71,26 +72,19 @@
                                 <div class="container">
                                     <div class="mega-menu">
                                         <div class="row gy-5 ">
-                                            @foreach ($suitable_for_groups as $suitable_for_group)
-                                                @php($suitable_for_group_slug = $suitable_for_group['slug'])
+                                            @foreach ($categories as $category)
                                                 <div class="col-lg-3 col-md-6 col-sm-12">
                                                     <ul>
                                                         <li>
-                                                            <h5>{{ $suitable_for_group['title'] }}</h5>
+                                                            <span><a href="{{ route('category', $category->slug) }}">{{ $category->category_name }}</a></span>
                                                         </li>
-                                                        @if ($categories->isNotEmpty())
-                                                            <li>
-                                                                <a
-                                                                    href="{{ route('productsSuitableFor', [$suitable_for_group_slug]) }}">
-                                                                    Show All {{ $suitable_for_group['title'] }}
-                                                                </a>
-                                                            </li>
-                                                            @foreach ($categories as $category)
+                                                        @php($sub_categories=getSubcategories($category->id))
+                                                        @if($sub_categories != NULL)
+                                                            @foreach($sub_categories as $sub_cat)
                                                                 <li>
-                                                                    <a
-                                                                        href="{{ route('productsSuitableForWithCategory', [$suitable_for_group_slug, $category->slug]) }}">
-                                                                        {{ $category->category_name }}
-                                                                    </a>
+                                                                   <span> <a href="{{ route('category', $category->slug) }}">
+                                                                       {{ $sub_cat->category_name }} 
+                                                                    </a></span>
                                                                 </li>
                                                             @endforeach
                                                         @endif
@@ -117,7 +111,7 @@
                     </ul>
                     @include('frontend.layouts.auth')
                     <div class="profile-wishlist-cart">
-                        <div class="nav-Search-bar">
+                        <div class="nav-Search-bar loggedin_menu" style="display: none;">
                             <form action="{{route('frontend.site_search')}}" class="toggle-searchbar" method="get">
                                 <div class="search-box-wrapper">
                                     <i class="fa sticky-search-icon fa-search" aria-hidden="true"></i>

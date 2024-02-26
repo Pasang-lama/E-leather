@@ -1,16 +1,10 @@
 @extends('frontend.layouts.master')
 @section('content')
-
 <div class="forgot-password-wrapper custom-margin container">
     <div class="row justify-content-center">
         <div class="col-lg-6 col-md-6 col-sm-12">
             <div class="forgot-password-content">
                 <h3 class="verify-title text-center pb-3">
-
-
-
-
-
                     Create Your New Password
                 </h3>
                 @if(session()->has('success_msg'))

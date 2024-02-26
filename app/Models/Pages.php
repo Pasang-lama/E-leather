@@ -19,6 +19,10 @@ class Pages extends Model
         "page_slug",
         "page_description",
         "page_image",
+        "page_metatitle",
+        "page_metakeyword",
+        "page_metadescription",
+        "page_schema"
     ];
 
     /**
@@ -31,7 +35,7 @@ class Pages extends Model
         return [
             "page_slug" => [
                 "source" => "page_title",
-                "onUpdate" => true,
+                "onUpdate" => false,
             ]
         ];
     }

@@ -103,7 +103,7 @@ Route::get("products/{slug}", "Frontend\FrontendController@products")->name(
 );
 Route::get("products_search","Frontend\SearchController@products_search");
 Route::get("contact", "Frontend\FrontendController@contact")->name("contact");
-Route::POST("contact_details", "Frontend\FrontendController@contact_details")->name("contact_details");
+Route::post("contact_details", "Frontend\FrontendController@contact_details")->name("contact_details");
 
 
 // Route::get('latest/products','Frontend\FrontendController@latest_products')->name('latest.products');
@@ -290,3 +290,6 @@ Route::namespace("Admin")
         });
     });
 /** Backend Ends **/
+Route::get('sitemap.xml','Frontend\SitemapController@index')->name('frontend.sitemap');
+Route::post("ckeditor", "Admin\CkEditorController@upload")->name("upload");
+Route::get("getUploadedFiles", "Admin\CkEditorController@getUploadedFiles")->name("getUploadedFiles");

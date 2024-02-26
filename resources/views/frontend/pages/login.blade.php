@@ -22,8 +22,3 @@
         <button type="submit" id="customer_signin">Sign In</button>
         <div class=" pt-2"> <a class="forgot-password " href="{{ route('user.forgotPasswordIndex') }}">Forgot password?</a></div>
     </form>
-    <div class="log-in-images">
-        <a href="{{ route('home') }}">
-            <figure><img src="{{ asset('frontend/images/banner.png') }}" alt="{{ env('APP_NAME') }}"></figure>
-        </a>
-    </div>

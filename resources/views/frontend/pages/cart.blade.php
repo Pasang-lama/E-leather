@@ -30,7 +30,7 @@
                @endif
                @if($cartItems->isNotEmpty())
                <div class="title">
-                  <h4>My Cart</h4>
+                  <h1 class="main-heading">My Cart</h1>
                </div>
                <div class="my-cart-table" >
                   <table>

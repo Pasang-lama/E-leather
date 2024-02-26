@@ -22,6 +22,7 @@ use App\Models\Category,
     App\Models\Testimonials,
     App\Models\Pages,
     App\Models\Homepageextra;
+use App\Models\Setting;
 use Carbon\Carbon;
 use Exception;
 use Hash, DB, Notification, Cart, Mail;
@@ -33,12 +34,11 @@ class FrontendController extends Controller
     {
         $this->record_per_page = 15;
         $this->middleware(["XssSanitizer"]);
-        $this->emailAddress = "amilmdr502@gmail.com";
+        $this->emailAddress = "info@eleather.com";
     }
 
     public function home()
     {
-        $title = "Home";
         $banners = Banner::where(["status" => 1])
             ->orderBy("order", "ASC")
             ->get();
@@ -76,10 +76,21 @@ class FrontendController extends Controller
             ->limit(2)
             ->get();
         $homepageextras = Homepageextra::first();
+        $setting = Setting::first();
+        $title = "Home";
 
+        $metaTagValue = [
+            'title' => ($setting->metatitle != '') ? $setting->metatitle : $title,
+            'meta_title' => ($setting->metatitle != '') ? $setting->metatitle : $title,
+            'meta_description' => ($setting->metadescription != '') ? $setting->metadescription : "",
+            'meta_keywords' => ($setting->metakeyword != '') ? $setting->metakeyword : "",
+            'schema' => ($setting->schema != '') ? $setting->schema : "",
+            'logo_img' => asset('images/default.png')
+        ];
         return view(
             "frontend/pages/home",
             compact(
+                "title",
                 "latest_products",
                 "sale_products",
                 "trending_products",
@@ -90,7 +101,7 @@ class FrontendController extends Controller
                 "testimonials",
                 "featuredCategories",
                 "homepageextras",
-                "title"
+                "metaTagValue"
             )
         );
     }
@@ -112,7 +123,6 @@ class FrontendController extends Controller
         $title = $category->category_name;
         array_push($cat_with_subcat_arr, $category->id);
         $category->childrenCategoriesIds($cat_with_subcat_arr);
-
         $products = DB::table("products")
             ->join(
                 "product_categories",
@@ -123,11 +133,20 @@ class FrontendController extends Controller
             ->whereIn("product_categories.category_id", $cat_with_subcat_arr)
             ->distinct()
             ->paginate($this->record_per_page);
-
+        $title = ($category->seo_title != '') ? $category->seo_title : $category->category_name;
         $brands = Brand::get();
         $group_slug = "";
         $group_name = "";
         $category_name = $category;
+        $metaTagValue = [
+            'title' => $title,
+            'meta_title' => $title,
+            'meta_description' => ($category->seo_description != '') ? $category->seo_description  : "",
+            'meta_keywords' => ($category->seo_keyword != '') ? $category->seo_keyword : "",
+            'schema' => ($category->schema != '') ? $category->schema : "",
+            'logo_img' => asset('images/default.png')
+        ];
+
         return view(
             "frontend/pages/allproducts",
             compact(
@@ -137,7 +156,8 @@ class FrontendController extends Controller
                 "brands",
                 "group_slug",
                 "group_name",
-                "category_name"
+                "category_name",
+                "metaTagValue"
             )
         );
     }
@@ -165,20 +185,9 @@ class FrontendController extends Controller
                 $request->session()->put($slug, time());
                 $product->increment("view_count");
             }
-
             $cross_selling_products = new Product();
-
             $related_products = Product::getRelatedProducts($slug);
-
-            $average_ratings = Review::Where([
-                "product_id" => $product->id,
-            ])
-                ->pluck("rating")
-                ->avg();
-
-            $product_average =
-                $average_ratings > 0 ? round($average_ratings) : 0;
-
+            $product_average = getAvgRating($product->id);
             $title = $product->product_name;
             if (Auth::user() == null) {
                 $id = 0;
@@ -198,11 +207,21 @@ class FrontendController extends Controller
             } else {
                 $itemsAvailableInWishList = 0;
             }
+            $title = ($product->seo_title != '') ? $product->seo_title : $product->product_name;
+            $metaTagValue = [
+                'title' => $title,
+                'meta_title' => $title,
+                'meta_description' => ($product->seo_description != '') ? $product->seo_description  : "",
+                'meta_keywords' => ($product->seo_keyword != '') ? $product->seo_keyword : "",
+                'schema' => ($product->schema != '') ? $product->schema : "",
+                'logo_img' => asset('images/'. $product->product_image)
+            ];
 
             $bodyClass = "main_product";
             return view(
                 "frontend/pages/main_product",
                 compact(
+                    "title",
                     "product",
                     "product_images",
                     "product_sizes",
@@ -211,7 +230,8 @@ class FrontendController extends Controller
                     "bodyClass",
                     "related_products",
                     "product_average",
-                    "itemsAvailableInWishList"
+                    "itemsAvailableInWishList",
+                    "metaTagValue"
                 )
             );
         } else {
@@ -236,6 +256,7 @@ class FrontendController extends Controller
 
     public function products($slug)
     {
+
         if ($slug == "new_arrivals") {
             $products = Product::orderBy("id", "DESC");
         } elseif ($slug == "sale") {
@@ -367,9 +388,7 @@ class FrontendController extends Controller
             $dataactive = [
                 "status" => "active",
             ];
-
             $userdata->notify(new VerifyEmail($userdata, $dataactive));
-
             return response()->json([
                 "success" =>
                 "User registered successfully. Please verfiy your account",
@@ -381,12 +400,6 @@ class FrontendController extends Controller
                 "redirect_url" => "",
             ]);
         }
-        // } catch (\Exception $e) {
-        //     return response()->json([
-        //         "error" => "User not registered. Please try again",
-        //         "redirect_url" => "",
-        //     ]);
-        // }
     }
 
     public function verify()
@@ -459,10 +472,6 @@ class FrontendController extends Controller
             $user->provider = $provider;
             $user->status = "active";
 
-            //  if($data->avatar) {
-            //   $user->photo= $this->image_upload($data, "avatar");
-            //  }
-
             $user->save();
         }
         Auth::login($user);
@@ -473,14 +482,43 @@ class FrontendController extends Controller
     {
         $title = "About Us";
         $aboutus = AboutUs::first();
-        return view("frontend.pages.aboutus", compact("title", "aboutus"));
+        $title = ($aboutus->about_us_metatitle != '') ? $aboutus->about_us_metatitle : $title;
+        $metaTagValue = [
+            'title'  => $title,
+            'meta_title' => $title,
+            'meta_description' => ($aboutus->about_us_metadescription != '') ? $aboutus->about_us_metadescription : "",
+            'meta_keywords' => ($aboutus->about_us_metakeyword != '') ? $aboutus->about_us_metakeyword : "",
+            'schema' => ($aboutus->about_us_schema != '') ? $aboutus->about_us_schema : "",
+            'logo_img' => asset('images/default.png')
+        ];
+        return view("frontend.pages.aboutus", compact(
+            "title",
+            "aboutus",
+            "metaTagValue"
+        ));
     }
 
     public function contact(Request $request)
     {
-        $title = "Contact Us";
-        return view("frontend.pages.contact", compact("title"));
+        $pages = Pages::where('page_slug', 'contact')->first();
+        $title = "Contact";
+        $metaTagValue = [];
+        if ($pages) {
+            $title = ($pages->page_metatitle != '') ? $pages->page_metatitle : "Contact Us";
+            $metaTagValue = [
+                'title' => $title,
+                'meta_title' => ($pages->page_metatitle != '') ? $pages->page_metatitle : "",
+                'meta_description' => ($pages->page_metadescription != '') ? $pages->page_metadescription : "",
+                'meta_keywords' => ($pages->page_metakeyword != '') ? $pages->page_metakeyword : "",
+                'schema' => ($pages->page_schema != '') ? $pages->page_schema : "",
+            ];
+            
+        }
+
+        $metaTagValue['logo_img'] = asset('images/default.png');
+        return view("frontend.pages.contact", compact("title", "metaTagValue"));
     }
+
     public function contact_details(Request $request)
     {
         $this->validate(
@@ -543,6 +581,17 @@ class FrontendController extends Controller
         $group_id = getGroupIdFromSlug($suitable_for);
         $group_name = getGroupNameFromSlug($suitable_for);
         $group_slug = "";
+        
+        
+         $metaTagValue = [
+            'title' => $title,
+            'meta_title' => $title,
+            'meta_description' => "",
+            'meta_keywords' => "",
+            'schema' => "",
+            'logo_img' => asset('images/default.png')
+        ];
+        
         $products = Product::where([
             "status" => 1,
             "suitable_for" => $group_id,
@@ -551,7 +600,7 @@ class FrontendController extends Controller
             ->paginate($this->record_per_page);
         return view(
             "frontend.pages.allproducts",
-            compact("title", "products", "group_name", "group_slug")
+            compact("title", "products", "group_name", "group_slug","metaTagValue")
         );
     }
 
@@ -560,6 +609,7 @@ class FrontendController extends Controller
         $suitable_for,
         $category
     ) {
+
         $title = "Products";
         $group_id = getGroupIdFromSlug($suitable_for);
         $group_name = getGroupNameFromSlug($suitable_for);
@@ -577,6 +627,17 @@ class FrontendController extends Controller
             ])
             ->orderBy("id", "DESC")
             ->paginate($this->record_per_page);
+            
+        
+        $metaTagValue = [
+            'title' => $title,
+            'meta_title' => $title,
+            'meta_description' => "",
+            'meta_keywords' => "",
+            'schema' => "",
+            'logo_img' => asset('images/default.png')
+        ];
+        
         return view(
             "frontend.pages.allproducts",
             compact(
@@ -584,7 +645,8 @@ class FrontendController extends Controller
                 "products",
                 "group_name",
                 "category_name",
-                "group_slug"
+                "group_slug",
+                "metaTagValue"
             )
         );
     }
@@ -609,10 +671,22 @@ class FrontendController extends Controller
     {
         $blogs = Blogs::where([
             "blog_status" => 1,
-        ])->paginate($this->record_per_page);
-
+        ])->orderBy("created_at","DESC")->paginate($this->record_per_page);
+        $pages = Pages::where('page_slug', 'blogs')->first();
         $title = "Blogs";
-        return view("frontend.pages.blogs", compact("title", "blogs"));
+        $metaTagValue = [];
+        if ($pages) {
+            $title = ($pages->page_metatitle != '') ? $pages->page_metatitle : "Blogs";
+            $metaTagValue = [
+                'title' => $title,
+                'meta_title' => ($pages->page_metatitle != '') ? $pages->page_metatitle : "",
+                'meta_description' => ($pages->page_metadescription != '') ? $pages->page_metadescription : "",
+                'meta_keywords' => ($pages->page_metakeyword != '') ? $pages->page_metakeyword : "",
+                'schema' => ($pages->page_schema != '') ? $pages->page_schema : "",
+            ];
+        }
+        $metaTagValue['logo_img'] = asset('images/default.png');
+        return view("frontend.pages.blogs", compact("title", "blogs", "metaTagValue"));
     }
 
     public function blog_details(Request $request, $slug = null)
@@ -620,46 +694,72 @@ class FrontendController extends Controller
         $blog_details = Blogs::where([
             "blog_slug" => $slug,
             "blog_status" => 1,
-        ])->first();
-        if (!empty($blog_details)) {
-            $title = $blog_details->blog_title;
+        ])->firstOrFail();
 
+          $title   = ($blog_details->blog_meta_title != '') ? $blog_details->blog_meta_title : $blog_details->blog_title;
             $blogs = Blogs::where("blog_status", 1)
                 ->whereNotIn("blog_slug", [$slug])
                 ->limit(5)
                 ->orderBy("id", "DESC")
                 ->get();
 
+        $metaTagValue = [
+            'title' => $title,
+            'meta_title' => $title,
+            'meta_description' => ($blog_details->blog_meta_description != '') ? $blog_details->blog_meta_description : "",
+            'meta_keywords' => ($blog_details->blog_meta_keyword != '') ? $blog_details->blog_meta_keyword : "",
+            'schema' => ($blog_details->blog_schema != '') ? $blog_details->blog_schema : "",
+            'logo_img' => (($blog_details->blog_image != '') && file_exists(public_path('images/blogs/' . $blog_details->blog_image))) ? asset('images/blogs/' . $blog_details->blog_image) : asset('images/default.png')
+        ];
             return view(
                 "frontend.pages.blog_details",
-                compact("title", "blog_details", "blogs")
+                compact("title", "blog_details", "blogs","metaTagValue")
             );
-        } else {
-            abort(404);
-        }
+
     }
 
     public function pages_details(Request $request, $page_slug)
     {
-        $page_details = Pages::where(["page_slug" => $page_slug])->first();
-        if (!empty($page_details)) {
-            $title = $page_details->page_title;
+        $page_details = Pages::where(["page_slug" => $page_slug])->firstOrFail();
+        $title   = ($page_details->page_metatitle != '') ? $page_details->page_metatitle : $page_details->page_title;
+        $metaTagValue = [
+            'title' => $title,
+            'meta_title' =>($page_details->page_metakeyword !='') ? $page_details->page_metakeyword : $title,
+            'meta_description' => ($page_details->page_metadescription != '') ? $page_details->page_metadescription : "",
+            'meta_keywords' => ($page_details->page_metakeyword != '') ? $page_details->page_metakeyword : "",
+            'schema' => ($page_details->page_schema != '') ? $page_details->page_schema : "",
+            'logo_img' => (($page_details->page_image != '') && file_exists(public_path('images/pages/' . $page_details->page_image))) ? asset('images/pages/' . $page_details->page_image) : asset('images/default.png')
+        ];
             return view(
                 "frontend.pages.page_details",
-                compact("title", "page_details")
+                compact("title", "page_details","metaTagValue")
             );
-        } else {
-            abort(404);
-        }
+
     }
 
     public function brands(Request $request)
     {
-        $title = "Brands";
         $brands = Brand::orderBy("order", "ASC")->paginate(
             $this->record_per_page
         );
-        return view("frontend.pages.brands", compact("title", "brands"));
+
+        $title="Brands";
+        $pages=Pages::where('page_slug','brands')->first();
+        $metaTagValue = [];
+        if ($pages) {
+            $metaTagValue = [
+                'title' => $title,
+                'meta_title' => ($pages->page_metatitle != '') ? $pages->page_metatitle : $title,
+                'meta_description' => ($pages->page_metadescription != '') ? $pages->page_metadescription : "",
+                'meta_keywords' => ($pages->page_metakeyword != '') ? $pages->page_metakeyword : "",
+                'schema' => ($pages->page_schema != '') ? $pages->page_schema : "",
+                'logo_img' => asset('images/default.png')
+            ];
+        }
+
+
+
+        return view("frontend.pages.brands", compact("brands","title", "metaTagValue"));
     }
 
     public function brand_details(Request $request, $brand_slug = null)
@@ -672,22 +772,31 @@ class FrontendController extends Controller
                 "products.brand_id",
                 "=",
                 "brands.id"
-            )
-                ->where(["brands.slug" => $brand_slug, "products.status" => 1])
+            )->where(["brands.slug" => $brand_slug, "products.status" => 1])
                 ->orderBy("products.created_at", "DESC")
                 ->select(["products.*"])
                 ->paginate($this->record_per_page);
-
+                $brandlogo=Product::where('brand_id',$brandDetails->id)->select('product_image')->first();
+                $metaTagValue = [
+                    'title' => $title,
+                    'meta_title' => ($brandDetails->seo_title != '') ? $brandDetails->seo_title :$title,
+                    'meta_description' => ($brandDetails->seo_description != '') ? $brandDetails->seo_description : "",
+                    'meta_keywords' => ($brandDetails->seo_keyword != '') ? $brandDetails->seo_keyword : "",
+                    'schema' => ($brandDetails->schema != '') ? $brandDetails->schema : "",
+                    'logo_img'=> ($brandDetails->schema != '') ? asset('images/' . $brandlogo->product_image) : ""
+                ];
             return view(
                 "frontend.pages.brand_products",
-                compact("title", "brandDetails", "brandProducts")
+                compact("title", "brandDetails", "brandProducts","metaTagValue")
             );
         }
     }
     public function forgotPasswordIndex()
     {
-        return view("frontend.pages.forgotPassword");
+        $title = "Forgot Password";
+        return view("frontend.pages.forgotPassword", compact("title"));
     }
+
     public function emailVerify(Request $request)
     {
         $request->validate(
@@ -704,19 +813,15 @@ class FrontendController extends Controller
                 'email' => $request->email,
                 'role' => 'user'
             ])->first();
-
             $expirytime = Carbon::now(new \DateTimeZone('Asia/Kathmandu'))->addMinutes(30)->timestamp;
-
             $expiry_url = route('user.password.reset', [
-                    "email" => urlencode($userEmail->email),
-                    "expiry_time" =>  $expirytime
+                "email" => urlencode($userEmail->email),
+                "expiry_time" =>  $expirytime
             ]);
-
             $data = [
                 'email' => $userEmail->email,
                 'expiry_url' => $expiry_url
             ];
-
             Mail::to($request->email)->send(
                 new \App\Mail\EmailVerifytMailable($data)
             );
@@ -725,14 +830,16 @@ class FrontendController extends Controller
             return  redirect()->back()->with("error_msg", "Email not found, Try again");
         }
     }
+
     public function emailSubmit(Request $request)
     {
+        $title = "Change Password";
         $email = urldecode($request->get('email'));
         $expiry_timestamp = urldecode($request->get('expiry_time'));
-        if(strtotime($expiry_timestamp) > strtotime("-30 minutes")) {
-            return view("frontend.pages.password_expired");
+        if (strtotime($expiry_timestamp) > strtotime("-30 minutes")) {
+            return view("frontend.pages.password_expired", compact('title'));
         } else {
-            return view("frontend.pages.changePassword", compact('email'));
+            return view("frontend.pages.changePassword", compact('email', 'title'));
         }
     }
     public function changePasswordSubmit(Request $request, $email)

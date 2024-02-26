@@ -19,7 +19,7 @@
             <div class="col-lg-9 col-md-8 col-sm-12">
                 <div class="profile">
                     <div class="title">
-                        <h4>Dashboard</h4>
+                        <span>Dashboard</span>
                     </div>
                     @if($orders->isNotEmpty())
                     <div class="order-table linked-order-table">
@@ -45,7 +45,7 @@
                                 <td>{{ $order->created_at }}</td>
                                 <td class="order-items-status" >
                                    <span  @if($order->status=="new") 
-                                    class="new "
+                                    class="new "gi
                                     @elseif($order->status=="process")
                                     class="process"
                                     @elseif($order->status=="cancel")

@@ -23,6 +23,7 @@ class Category extends Model
         'seo_title',
         'seo_description',
         'seo_keyword',
+        'schema',
         'parent_id'
     ];
 
@@ -67,5 +68,5 @@ class Category extends Model
     }
 
 
-   
+
 }

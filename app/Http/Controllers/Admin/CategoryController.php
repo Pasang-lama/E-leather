@@ -15,7 +15,7 @@ class CategoryController extends Controller
     public function __construct(){
         $this->middleware(["XssSanitizer"]);
     }
-    
+
     public function index()
     {
         $categories = Category::whereNull("parent_id")
@@ -129,9 +129,7 @@ class CategoryController extends Controller
                 "category_image"
             );
         }
-
         $category->update($input);
-
         return redirect()
             ->route("admin.category.index")
             ->with("success_msg", "Category updated successfully.");

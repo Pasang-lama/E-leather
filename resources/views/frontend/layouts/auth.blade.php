@@ -20,26 +20,6 @@
          </div>
           <div class="modal-body user_registration_login_form">
           </div>
-          <div class="modal-footer d-flex flex-column align-items-start user_registration_login_form_footer">
-            <div class="or mt-1 mb-2">
-               <p>or</p>
-            </div>
-            <p class="loginform_text"></p>
-            <div class="social-media mt-4">
-               <div class="facebook me-2">
-                  <a href="{{ route('login.facebook') }}">
-                     <i class="fab fa-facebook-f pe-2"></i>
-                     Facebook
-                  </a>
-               </div>
-               <div class="google"> 
-                  <a href="{{ route('login.google') }}">
-                     <i class="fab fa-google pe-2"></i>
-                     Google
-                  </a>
-               </div>
-            </div>
-         </div>
       </div>
     </div>
 </div>

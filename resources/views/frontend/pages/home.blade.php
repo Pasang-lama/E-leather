@@ -1,11 +1,23 @@
 @extends('frontend.layouts.master')
 @section('seo')
-<title>{{ $setting_com->name }}</title>
-<meta name="description" content="{{ $setting_com->description }}">
-<meta name="keywords" content="{{ $setting_com->description }}">
-<meta property='og:title' content="{{ $setting_com->name }}">
-<meta property="og:description" content="{{ $setting_com->description }}" />
-<meta property="og:image" content="{{ asset('images/' . $setting_com->logo) }}" />
+<meta name="title" content="{{$metaTagValue['meta_title']}}">
+<meta name="description" content="{{$metaTagValue['meta_description']}}">
+<meta name="keywords" content="{{$metaTagValue['meta_keywords']}}">
+<meta property='og:title' content="{{$metaTagValue['meta_title']}}">
+<meta property="og:description" content="{{$metaTagValue['meta_description']}}" />
+<meta property="og:image" content="{{$metaTagValue['logo_img']}}" />
+<meta property="og:type" content="home" />
+<meta property="og:url" content="{{url()->current()}}" />
+<meta name="twitter:card" content="{{$metaTagValue['logo_img']}}" />
+<meta name="twitter:title" content="{{$metaTagValue['meta_title']}}" />
+<meta name="twitter:description" content="{{$metaTagValue['meta_description']}}" />
+<meta name="twitter:image" content="{{$metaTagValue['logo_img']}}" />
+
+@isset($metaTagValue['schema'])
+{!!"<script type='application/ld+json'>
+   ".$metaTagValue['schema']."
+</script>" !!}
+@endisset
 @endsection
 @section('content')
 @if($banners->count() > 0)
@@ -29,10 +41,10 @@
       <div class="row  gy-4">
          <div class="col-md-6 col-sm-12  wow fadeInLeft animated">
             <div class="heading">
-               <h2>About us</h2>
+               <h1>welcome to E-leather </h1>
             </div>
             <p>
-               {{ Str::words(strip_tags($aboutus->about_us_description), 130) }}
+               {{ Str::words(strip_tags($aboutus->about_us_description), 80) }}
             </p>
             <div class="button mt-5">
                <a href="{{ route('frontend.aboutus') }}"> Read more</a>
@@ -51,76 +63,58 @@
 <section class="trending-section custom-margin wow fadeInDown animated">
    <div class="container">
       <div class="heading">
-         <h2>TRENDING</h2>
+         <h2>TRENDING PRODUCTS</h2>
       </div>
       <div class="product-slider">
          @foreach($trending_products as $trending_product)
-         <div class="product-card" data-pcount="{{ $loop->iteration}}"  data-section="numberTrendingProduct">
+         <div class="product-card" data-pcount="{{ $loop->iteration}}" data-section="numberTrendingProduct">
             <div class="card-heading">
                <a href="{{ route('main_product', [$trending_product->slug]) }}">
-               <figure>
-                  <img class="d-block w-100" src="{{ ($trending_product->product_image != '') && file_exists(public_path('images/'.$trending_product->product_image)) ? asset('images/'.$trending_product->product_image) : asset('images/default.png') }}" alt="{{ $trending_product->product_name }}">
-               </figure>
+                  <figure>
+                     <img class="d-block w-100" src="{{ ($trending_product->product_image != '') && file_exists(public_path('images/'.$trending_product->product_image)) ? asset('images/'.$trending_product->product_image) : asset('images/default.png') }}" alt="{{ $trending_product->product_name }}">
+                  </figure>
                </a>
-               <div class="hover-content">
-                  <ul>
-                     <li class="Wishlist add-to-wishlist" data-pcount="{{ $loop->iteration}}" data-section="numberTrendingProduct" ><a data-bs-toggle="tooltip" data-bs-placement="left"
-                        title="Add to Wishlist" href=""><i class="far fa-heart"></i></a></li>
-                     <li class="View-details"><a data-bs-toggle="tooltip" data-bs-placement="left"
-                        title="View details" href="{{ route('main_product', [$trending_product->slug]) }}"><i class="fas fa-search"></i></a></li>
-                     {{--
-                     <li class="Compare"><a data-bs-toggle="tooltip" data-bs-placement="left"
-                        title="Add to Compare" href=""><i class="fas fa-sync-alt"></i></a></li>
-                     --}}
-                  </ul>
-               </div>
-               @if(($trending_product->discount_percent != '') || ($trending_product->discount_percent > 0))
+               @if($trending_product->discount_percent > 0)
                <div class="sale">
-                  <span>-{{ $trending_product->discount_percent }}%</span>
+                  <span>{{ $trending_product->discount_percent }}% OFF</span>
                </div>
                @endif
             </div>
             <div class="card-body">
-               <h6 class="text-center">{{ $trending_product->product_name }}</h6>
-               <div class="rating text-center">
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star-half"></i>
+               <a href="{{ route('main_product', [$trending_product->slug]) }}">
+                  <h3 class=" card-tittle text-center">{{ $trending_product->product_name }}</h3>
+               </a>
+               <div class="rating text-center pt-2">
+                  @php
+                  $product_average = getAvgRating($trending_product->id);
+                  @endphp
+                  @for($i = 1; $i <= 5; $i++) @php $selected=(($product_average> 0) && $i <= $product_average) ? "fas fa-star" : "far fa-star" ; @endphp <i class="{{ $selected }}"></i>
+                        @endfor
                </div>
                <div class="price text-center py-1">
                   @if($trending_product->special_price > 0)
                   <span class="text-decoration-line-through text-muted pe-1">
-                  {{ env('DEFAULT_CURRENCY_SYMBOL','Rs.') }}{{ (formatcurrency($trending_product->regular_price,'NPR')) }}
+                     {{ env('DEFAULT_CURRENCY_SYMBOL','Rs.') }}{{ (formatcurrency($trending_product->regular_price,'NPR')) }}
                   </span>
                   <span>
-                  {{ env('DEFAULT_CURRENCY_SYMBOL','Rs.') }}{{ (formatcurrency($trending_product->special_price,'NPR')) }}
-                  @php($product_price = $trending_product->special_price)
+                     {{ env('DEFAULT_CURRENCY_SYMBOL','Rs.') }}{{ (formatcurrency($trending_product->special_price,'NPR')) }}
+                     @php
+                     $product_price = $trending_product->special_price;
+                     @endphp
                   </span>
                   @else
                   <span>
-                  {{ env('DEFAULT_CURRENCY_SYMBOL','Rs.') }}{{ (formatcurrency($trending_product->regular_price,'NPR')) }}
-                  @php($product_price = $trending_product->regular_price)
+                     {{ env('DEFAULT_CURRENCY_SYMBOL','Rs.') }}{{ (formatcurrency($trending_product->regular_price,'NPR')) }}
+                     @php
+                     ($product_price = $trending_product->regular_price)
+                     @endphp
                   </span>
                   @endif
                </div>
-               <div class="add-to-cart-button">
-                  <form>
-                     <div id="numberTrendingProductDiv{{ $loop->iteration}}" class="product-sizes-listing d-none value-button">
-                     {{ getProductAttr($trending_product->id, 'size') }}
-                     </div>
-
-                     <div class="value-button" id="decrease" onclick="decreaseValue('numberTrendingProduct',{{ $loop->iteration}})" value="Decrease Value"> -
-                     </div>
-
-                     <input type="number" id="numberTrendingProduct{{ $loop->iteration}}" value="1" class="product_qty" data-id="{{ $trending_product->id }}" data-sp="{{ $product_price }}" data-title="{{ $trending_product->product_name }}" data-size="{{ getProductAttr($trending_product->id, 'size') }}"data-stock="{{ getProductAttr($trending_product->id, 'stock') }}"/>
-
-                     <div class="value-button" id="increase" onclick="increaseValue('numberTrendingProduct',{{ $loop->iteration}})" value="Increase Value"> +
-                     </div>
-                     <button class="Add-to-card value-button addToCartAjax" data-pcount="{{ $loop->iteration}}" data-section="numberTrendingProduct">Add to Cart</button>
-                  </form>
-               </div>
+            </div>
+            <div class="add-to-cart-button">
+               <button class="Add-to-card-btn addToCartAjax">Add to Cart <i class="fas fa-shopping-cart"></i></button>
+               <button class="add-to-wishlist"><i class="fas fa-heart"></i></button>
             </div>
          </div>
          @endforeach
@@ -128,15 +122,7 @@
    </div>
 </section>
 @endif
-@if($homepageextras->homepageextra_bannerimage != '' && file_exists(public_path('images/homepageextra/'.$homepageextras->homepageextra_bannerimage)))
-<section class="highlight custom-margin  wow fadeInDown animated">
-   <a @if($homepageextras->homepageextra_bannerlink != '') href="{{ $homepageextras->homepageextra_bannerlink }}"  target="_blank" @endif>
-   <figure>
-      <img class="w-100 d-block" src="{{ asset('images/homepageextra/'.$homepageextras->homepageextra_bannerimage) }}" alt="{{ env('APP_NAME') }}">
-   </figure>
-   </a>
-</section>
-@endif
+
 @if($featuredCategories->isNotEmpty())
 <section class="bag-shoes custom-margin">
    <div class="container">
@@ -174,74 +160,54 @@
       </div>
       <div class="product-slider">
          @foreach($latest_products as $latest_product)
-         <div class="product-card" data-pcount="{{ $loop->iteration}}"  data-section="numberNewArrivals">
+         <div class="product-card" data-pcount="{{ $loop->iteration}}" data-section="numberNewArrivals">
             <div class="card-heading">
                <a href="{{ route('main_product', [$latest_product->slug]) }}">
-               <figure>
-                  <img class="d-block w-100" src="{{ ($latest_product->product_image != '') && file_exists(public_path('images/'.$latest_product->product_image)) ? asset('images/'.$latest_product->product_image) : asset('images/default.png') }}" alt="{{ $latest_product->product_name }}">
-               </figure>
+                  <figure>
+                     <img class="d-block w-100" src="{{ ($latest_product->product_image != '') && file_exists(public_path('images/'.$latest_product->product_image)) ? asset('images/'.$latest_product->product_image) : asset('images/default.png') }}" alt="{{ $latest_product->product_name }}">
+                  </figure>
                </a>
-               <div class="hover-content">
-                  <ul>
-                     <li class="Wishlist add-to-wishlist"><a data-bs-toggle="tooltip" data-bs-placement="left"
-                        title="Add to Wishlist" href=""><i class="far fa-heart "></i></a></li>
-                     <li class="View-details"><a data-bs-toggle="tooltip" data-bs-placement="left"
-                        title="View details" href="{{ route('main_product', [$latest_product->slug]) }}"><i class="fas fa-search"></i></a></li>
-                     {{--
-                     <li class="Compare"><a data-bs-toggle="tooltip" data-bs-placement="left"
-                        title="Add to Compare" href=""><i class="fas fa-sync-alt"></i></a></li>
-                     --}}
-                  </ul>
-               </div>
-               @if(($latest_product->discount_percent != '') || ($latest_product->discount_percent > 0))
+               @if($latest_product->discount_percent > 0)
                <div class="sale">
-                  <span>-{{ $latest_product->discount_percent }}%</span>
+                  <span>{{ $latest_product->discount_percent }}% OFF</span>
                </div>
                @endif
             </div>
             <div class="card-body">
-               <h6 class="text-center">{{ $latest_product->product_name }}</h6>
-               <div class="rating text-center">
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star-half"></i>
+               <a href="{{ route('main_product', [$latest_product->slug]) }}">
+                  <h3 class=" card-tittle text-center">{{ $latest_product->product_name }}</h3>
+               </a>
+               <div class="rating text-center pt-1">
+                  @php
+                  $product_average = getAvgRating($latest_product->id);
+                  @endphp
+                  @for($i=1; $i<=5; $i++) @php $selected=(($product_average> 0) && $i <= $product_average) ? "fas fa-star" : "far fa-star" ; @endphp <i class="{{$selected}}"></i>
+                        @endfor
                </div>
                <div class="price text-center py-1">
                   @if($latest_product->special_price > 0)
                   <span class="text-decoration-line-through text-muted pe-1">
-                  {{ env('DEFAULT_CURRENCY_SYMBOL','Rs.') }}{{ (formatcurrency($latest_product->regular_price,'NPR')) }}
+                     {{ env('DEFAULT_CURRENCY_SYMBOL','Rs.') }}{{ (formatcurrency($latest_product->regular_price,'NPR')) }}
                   </span>
                   <span>
-                  {{ env('DEFAULT_CURRENCY_SYMBOL','Rs.') }}{{ (formatcurrency($latest_product->special_price,'NPR')) }}
-                  @php($product_price = $latest_product->special_price)
-
-                </span>
+                     {{ env('DEFAULT_CURRENCY_SYMBOL','Rs.') }}{{ (formatcurrency($latest_product->special_price,'NPR')) }}
+                     @php
+                     ($product_price = $latest_product->special_price)
+                     @endphp
+                  </span>
                   @else
                   <span>
-                  {{ env('DEFAULT_CURRENCY_SYMBOL','Rs.') }}{{ (formatcurrency($latest_product->regular_price,'NPR')) }}
-                  @php($product_price = $latest_product->regular_price)
+                     {{ env('DEFAULT_CURRENCY_SYMBOL','Rs.') }}{{ (formatcurrency($latest_product->regular_price,'NPR')) }}
+                     @php
+                     ($product_price = $latest_product->regular_price)
+                     @endphp
 
                   </span>
                   @endif
                </div>
                <div class="add-to-cart-button">
-                  <form>
-
-                     <div id="numberNewArrivalsDiv{{ $loop->iteration}}" class="product-sizes-listing d-none value-button">
-                     {{ getProductAttr($latest_product->id, 'size') }}
-                     </div>
-
-                     <div class="value-button" id="decrease" onclick="decreaseValue('numberNewArrivals',{{$loop->iteration}})" value="Decrease Value">-
-                     </div>
-
-                     <input type="number" id="numberNewArrivals{{$loop->iteration}}" value="1" class="product_qty" data-id="{{ $latest_product->id }}" data-sp="{{ $product_price }}" data-title="{{ $latest_product->product_name }}" data-size="{{ getProductAttr($latest_product->id, 'size') }}" data-stock="{{ getProductAttr($latest_product->id, 'stock') }}"/>
-
-                     <div class="value-button" id="increase" onclick="increaseValue('numberNewArrivals',{{$loop->iteration}})" value="Increase Value">+
-                     </div>
-                     <button class="Add-to-card value-button addToCartAjax" data-pcount="{{ $loop->iteration }}" data-section="numberNewArrivals">Add to Cart</button>
-                  </form>
+                  <button class="Add-to-card-btn addToCartAjax">Add to Cart <i class="fas fa-shopping-cart"></i></button>
+                  <button class="add-to-wishlist"><i class="fas fa-heart"></i></button>
                </div>
             </div>
          </div>
@@ -250,24 +216,6 @@
    </div>
 </section>
 @endif
-<section class="new-feature custom-margin wow fadeInDown animated">
-   <div class="container ">
-      <a @if($homepageextras->homepageextra_shortdescriptionlink != '') href="{{ $homepageextras->homepageextra_shortdescriptionlink }}"  target="_blank" @endif>
-      <div class="row align-items-center row-contain">
-         <div class="col-lg-6 col-md-6 col-sm-12 text-contain  animated fadeInLeft wow ">
-            {!! $homepageextras->homepageextra_shortdescription !!}
-         </div>
-         @if($homepageextras->homepageextra_shortdescriptionimg != '' && file_exists(public_path('images/homepageextra/'.$homepageextras->homepageextra_shortdescriptionimg)))
-         <div class="col-lg-6 col-md-6 col-sm-12 image-contain animated fadeInRight wow ">
-            <figure>
-               <img class="d-block w-100" src="{{ asset('images/homepageextra/'.$homepageextras->homepageextra_shortdescriptionimg) }}" alt="{{ env('APP_NAME') }}">
-            </figure>
-         </div>
-         @endif
-      </div>
-      </a>
-   </div>
-</section>
 <section class="categories-section custom-margin">
    <div class="container">
       <div class="row gy-4">
@@ -278,7 +226,7 @@
                      <img class="d-block w-100" src="{{ ($homepageextras->homepageextra_mentileimg != '' && file_exists(public_path('images/homepageextra/'.$homepageextras->homepageextra_mentileimg))) ? asset('images/homepageextra/'.$homepageextras->homepageextra_mentileimg) : asset('frontend/images/men.png') }}" alt="Men's Collection">
                   </figure>
                   <div class="categories-name">
-                     <h1>Men's</h1>
+                     <span>Men's</span>
                   </div>
                </div>
             </a>
@@ -290,7 +238,7 @@
                      <img class="d-block w-100" src="{{ ($homepageextras->homepageextra_kidtileimg != '' && file_exists(public_path('images/homepageextra/'.$homepageextras->homepageextra_kidtileimg))) ? asset('images/homepageextra/'.$homepageextras->homepageextra_kidtileimg) : asset('frontend/images/kid.png') }}" alt="Kid's Collection">
                   </figure>
                   <div class="categories-name">
-                     <h1>Kid's</h1>
+                     <span>Kid's</span>
                   </div>
                </div>
             </a>
@@ -302,7 +250,7 @@
                      <img class="d-block w-100" src="{{ ($homepageextras->homepageextra_womentileimg != '' && file_exists(public_path('images/homepageextra/'.$homepageextras->homepageextra_womentileimg))) ? asset('images/homepageextra/'.$homepageextras->homepageextra_womentileimg) : asset('frontend/images/women.png') }}" alt="Women's Collection">
                   </figure>
                   <div class="categories-name">
-                     <h1>Women's</h1>
+                     <span>Women's</span>
                   </div>
                </div>
             </a>
@@ -311,11 +259,14 @@
    </div>
 </section>
 @if($video->video_url != '')
-<section class="video-section custom-margin wow  animated zoomIn" >
+<section class="video-section custom-margin wow  animated zoomIn">
    <figure>
       <img src="{{ (($video->video_fallbackimage != '') && file_exists(public_path('images/video/'.$video->video_fallbackimage))) ? asset('images/video/'.$video->video_fallbackimage) : asset('frontend/images/videofallback.png') }}" alt="Video">
    </figure>
-   @php($videoParts = parseVideos($video->video_url))
+
+   @php
+   ($videoParts = parseVideos($video->video_url))
+   @endphp
    <a class="vpop popup-video" data-type="youtube" data-id="{{ Str::remove('v=', $videoParts['query']) }}" data-autoplay='true'>
       <i class="fas fa-play-circle"></i>
       <div class="sonar-wave sonar-wave1"></div>
@@ -333,7 +284,7 @@
 </section>
 @endif
 @if($testimonials->isNotEmpty())
-<section class="testimonals  custom-margin wow fadeInDown animated" >
+<section class="testimonals  custom-margin wow fadeInDown animated">
    <div class="container">
       <div class="heading">
          <h2>Testimonials </h2>
@@ -348,9 +299,7 @@
             </div>
             <div class="card-body">
                <div class="name">
-                  <h5>
-                     {{ $testimonial->testimonial_author }}
-                  </h5>
+                  {{ $testimonial->testimonial_author }}
                </div>
                <div class="position">
                   {{ $testimonial->testimonial_designation }}
@@ -366,7 +315,7 @@
 </section>
 @endif
 @if($blogs->isNotEmpty())
-<section class="blog-section  custom-margin wow fadeInDown animated" >
+<section class="blog-section  custom-margin wow fadeInDown animated">
    <div class="container">
       <div class="heading">
          <h2>Latest Blogs </h2>
@@ -387,8 +336,8 @@
                            <span class="day">{{ date('d', strtotime($blog->created_at))}}</span>
                            <span class="month">{{ date('M', strtotime($blog->created_at))}}</span>
                         </div>
-                        <div class="blog-title">
-                           <h6>{{ $blog->blog_title }}</h6>
+                        <div class="blog-title-wrapper">
+                           <h3 class="blog-tittle"> {{ $blog->blog_title }}</h3>
                         </div>
                      </div>
                      <div class="blog-content">

@@ -15,7 +15,7 @@ class UserSeeder extends Seeder
     public function run()
     {
         User::create([
-            "name" => "E-leather Nepal",
+            "name" => "E-leather nepal",
             "email" => "admin@eleather.com",
             "phone" => "9745948260",
             "address" => "Bouddha, Kathmandu",

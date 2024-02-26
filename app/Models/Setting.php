@@ -19,5 +19,9 @@ class Setting extends Model
         "youtube_link",
         "tiktok_link",
         "google_map",
+        "metatitle",
+        "metakeyword",
+        "metadescription",
+        "schema"
     ];
 }

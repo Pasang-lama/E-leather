@@ -1,8 +1,5 @@
 @extends('frontend.layouts.master')
-
-
 @section('content')
-
     <section class="category sec-padding">
         <div class="container">
             <div class="sec-title text-center">

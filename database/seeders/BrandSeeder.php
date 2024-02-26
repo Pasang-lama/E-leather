@@ -15,9 +15,9 @@ class BrandSeeder extends Seeder
     public function run()
     {
         Brand::create([
-        	"name" => "A1 Leather",
-        	"slug" => "a1-leather",
-        	"description" => "A1 Leather Nepal Craft",
+        	"name" => "E-ealther",
+        	"slug" => "E-leather",
+        	"description" => "E-leather",
         	"order" => "1",
         	"logo" => NULL,
         	"created_at" => date("Y-m-d H:i:s"),

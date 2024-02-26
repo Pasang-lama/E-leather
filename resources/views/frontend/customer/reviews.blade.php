@@ -19,7 +19,7 @@
                 <div class="col-lg-9 col-md-8 col-sm-12">
                     <div class=" profile">
                         <div class="title">
-                            <h4>My Review <span>({{ $reviews->count() }})</span></h4>
+                            <span>My Review <span>({{ $reviews->count() }})</span></span>
                         </div>
 
 

@@ -1,4 +1,5 @@
 @extends('frontend.layouts.master')
+
 @section('content')
 <section class="breadcrumb-section py-4">
    <div class="container">
@@ -15,9 +16,9 @@
 <section class="product-categories-section custom-margin">
    <div class="container">
       <div class="page-title">
-         <h4>
+         <h1 class="main-heading">
             Products
-         </h4>
+         </h1>
       </div>
       <div class="row gy-4">
          <div class="col-lg-3 col-md-4 col-sm-12">

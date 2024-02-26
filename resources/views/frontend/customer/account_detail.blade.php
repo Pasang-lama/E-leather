@@ -19,7 +19,7 @@
          <div class="col-lg-9 col-md-8 col-sm-12">
             <div class="profile">
                <div class="title">
-                  <h4>Update Profile</h4>
+                  <span>Update Profile</span>
                </div>
                @if(session()->has('success_msg'))
                     <div class="mt-4 alert alert-success">

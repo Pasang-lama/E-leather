@@ -36,7 +36,8 @@ class Product extends Model
         "brand_id",
         "seo_title",
         "seo_description",
-        "seo_keyword"
+        "seo_keyword",
+        "schema"
     ];
 
     // public function category()
@@ -79,7 +80,7 @@ class Product extends Model
     public static function getRelatedProducts($slug)
     {
         return Product::with(["category"])
-            ->whereNotIn("slug", [$slug])
+            ->whereNotIn("slug", [$slug])->limit(12)
             ->get();
 
     }

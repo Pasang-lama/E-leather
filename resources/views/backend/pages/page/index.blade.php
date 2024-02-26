@@ -10,7 +10,7 @@
                   <h3 class="card-title ">
                      <strong> Pages List</strong>
                   </h3>
-                  <h3 class="card-title float-right">
+                  <h3 class="card-title d-none float-right">
                      <a href="{{route('admin.pages.create')}}" class="btn btn-primary btn-xs" title="Create New Page">
                      Create
                      </a>

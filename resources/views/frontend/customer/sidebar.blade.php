@@ -32,8 +32,8 @@
    </ul>
 </div>
 <div class="my-bio mt-4">
-   <div class="title">
-      <h4 class="text-center">Welcome {{ auth()->user()->name }}</h4>
+   <div class="title company-profile">
+      <span class="text-center">Welcome {{ auth()->user()->name }}</span>
    </div>
    <table>
       <tr>

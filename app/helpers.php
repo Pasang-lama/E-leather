@@ -1,5 +1,6 @@
 <?php
 use App\Models\ProductSizes;
+use App\Models\Category;
 
 if (!function_exists("formatcurrency")) {
     function formatcurrency($floatcurr, $curr = "USD")
@@ -274,5 +275,28 @@ if(!function_exists('getProductAttr')){
     function getProductAttr($product_id, $type){
         $data = ProductSizes::where(["product_id"=>$product_id])->pluck($type);
         return isset($data[0]) ? ($data[0]) : '';
+    }
+}
+
+if(!function_exists('getSubcategories')){
+    function getSubcategories($category_id){
+        $categories = Category::where(["status" => "1", "parent_id" => $category_id])
+            ->orderBy("order", "ASC")
+            ->get();
+        return $categories;
+    }
+}
+
+if (!function_exists("getAvgRating")) {
+    function getAvgRating($product_id)
+    {
+         $average_ratings = \App\Models\Review::where([
+                "product_id" => $product_id,
+            ])
+                ->pluck("rating")
+                ->avg();
+
+            return $product_average =
+                $average_ratings > 0 ? round($average_ratings) : 0;
     }
 }

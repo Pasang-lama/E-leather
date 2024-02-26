@@ -94,7 +94,7 @@
                   class="nav-link  @if (Route::is('admin.homepageextra.*')) active @endif">
                   <i class="nav-icon fas fa-cog"></i>
                   <p>
-                     HomePage Extra
+                  Family Fashion
                   </p>
                </a>
             </li>

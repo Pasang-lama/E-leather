@@ -14,7 +14,7 @@ class PagesController extends Controller
     private $height;
 
     public function __construct(){
-        
+
         $this->middleware(["XssSanitizer"]);
         $this->upload_path = public_path("images/pages/");
         $this->width = 636;
@@ -42,12 +42,9 @@ class PagesController extends Controller
     {
         $request->validate([
             "page_title" => "required",
-            "page_description" => "required",
             "page_image" => "mimes:jpeg,jpg,png,gif",
         ],[
             "page_title.required" => "Title is required",
-            "page_description.required" =>
-                    "Description is required",
             "page_image.mimes" =>
                     "Image must have following extension jpeg,jpg,png,gif",
         ]);
@@ -84,17 +81,15 @@ class PagesController extends Controller
     {
         $request->validate([
             "page_title" => "required",
-            "page_description" => "required",
             "page_image" => "nullable|mimes:jpeg,jpg,png,gif",
         ],[
             "page_title.required" => "Title is required",
-            "page_description.required" =>
-                    "Description is required",
             "page_image.mimes" =>
                     "Image must have following extension jpeg,jpg,png,gif",
         ]);
 
         $input = $request->all();
+
         $page = Pages::findOrFail($id);
 
         if ($request->hasFile("page_image")) {
@@ -112,7 +107,6 @@ class PagesController extends Controller
                 $input["page_image"] = $filename;
             }
         }
-
         $page->update($input);
         return redirect()
             ->back()

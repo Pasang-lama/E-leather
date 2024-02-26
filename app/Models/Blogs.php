@@ -24,6 +24,8 @@ class Blogs extends Model
         "blog_status",
         "blog_meta_title",
         "blog_meta_description",
+        "blog_meta_keyword",
+        "blog_schema"
     ];
 
     public function sluggable(): array
@@ -31,7 +33,7 @@ class Blogs extends Model
         return [
             'blog_slug' => [
                 'source' => 'blog_title',
-                'onUpdate' => true
+                'onUpdate' => false
             ]
         ];
     }

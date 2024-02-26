@@ -16,8 +16,8 @@ class PagesSeeder extends Seeder
     {
         $pages = [
             [
-                "page_title" => "Store Locations",
-                "page_slug" => "store-locations",
+                "page_title" => "Leather Maintanance",
+                "page_slug" => "leather-maintanance",
                 "page_description" => "",
                 "page_image" => "",
                 "created_at" => date('Y-m-d H:i:s'),
