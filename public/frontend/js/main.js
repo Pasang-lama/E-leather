@@ -351,23 +351,19 @@ $(document).ready(function () {
     //Add to Cart
     $(document).on("click", ".addToCartAjax", function (e) {
         e.preventDefault();
-
         var baseUrl = $("body").attr("data-siteurl");
         var size = "";
         var item_stock = "";
         var wishlistitem = "";
-
         var id = $("input.product_qty.qty_active").attr("data-id");
         var sp = $("input.product_qty.qty_active").attr("data-sp");
         var title = $("input.product_qty.qty_active").attr("data-title");
         var qty = $("input.product_qty.qty_active").val();
-
         size = $("input.product_qty.qty_active").attr("data-size");
         item_stock = $("input.product_qty.qty_active").attr("data-stock");
         wishlistitem = $("input.product_qty.qty_active").attr(
             "data-wishlistitem"
         );
-
         if (size == "" && item_stock == "") {
             showMessage(
                 "Sorry, Item cannot be added to cart. Product with selected size is out of stock",
@@ -435,7 +431,6 @@ $(document).ready(function () {
                 } else {
                     showMessage("Server error occured", "error");
                 }
-
                 if (wishlistitem != "") {
                     setTimeout(function () {
                         location.reload(true);

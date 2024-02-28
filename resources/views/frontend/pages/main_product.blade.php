@@ -226,9 +226,9 @@ $reviewCount = $product->getReview->count();
                                 <img class="d-block w-100" src="{{ ($related_product->product_image != '') && file_exists(public_path('images/'.$related_product->product_image)) ? asset('images/'.$related_product->product_image) : asset('images/default.png') }}" alt="{{ $related_product->product_name }}">
                             </figure>
                         </a>
-                        @if(($related_product->discount_percent != '') || ($related_product->discount_percent > 0))
+                        @if($related_product->discount_percent > 0)
                         <div class="sale">
-                            <span>-{{ $related_product->discount_percent }}%</span>
+                            <span>{{ $related_product->discount_percent }}% OFF</span>
                         </div>
                         @endif
                     </div>
@@ -243,7 +243,6 @@ $reviewCount = $product->getReview->count();
                             @for($i=1; $i<=5 ; $i++) @php $selected=(($product_average> 0) && $i <= $product_average) ? "fas fa-star" : "far fa-star" @endphp <i class="{{$selected}}"></i>
                                     @endfor
                         </div>
-
                         <div class="price text-center py-1">
                             @if($related_product->special_price > 0)
                             <span class="text-decoration-line-through text-muted pe-1">
@@ -265,7 +264,8 @@ $reviewCount = $product->getReview->count();
                             @endif
                         </div>
                         <div class="add-to-cart-button">
-                            <button class="Add-to-card-btn addToCartAjax">Add to Cart <i class="fas fa-shopping-cart"></i></button>
+                            <input type="number" id="numberRelateableProducts{{ $loop->iteration }}" value="1" class="product_qty d-none" data-id="{{ $related_product->id }}" data-sp="{{ $product_price }}" data-title="{{ $related_product->product_name }}"  data-size="{{ getProductAttr( $related_product->id, 'size') }}" data-stock="{{ getProductAttr( $related_product->id, 'stock') }}"/>
+                            <button class="Add-to-card-btn value-button addToCartAjax">Add to Cart <i class="fas fa-shopping-cart"></i></button>
                             <button class="add-to-wishlist"><i class="fas fa-heart"></i></button>
                         </div>
                     </div>

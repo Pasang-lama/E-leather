@@ -40,12 +40,6 @@
                                         <th>
                                             <h6>Rating</h6>
                                         </th>
-                                        <th>
-                                            <h6>Total View </h6>
-                                        </th>
-                                        <th>
-                                            <h6>Satus</h6>
-                                        </th>
                                     </tr>
                                     @foreach ($reviews as $review)
                                         <tr>
@@ -62,14 +56,6 @@
                                                 <div class="ratings" id="{{ $loop->index + 1 }}"
                                                     data-rating="{{ $review->rating }}">
                                                 </div>
-                                            </td>
-                                            <td>{{ $review->view_count }}</td>
-                                            <td>
-                                                @if ($review->status == 1)
-                                                    Active
-                                                @else
-                                                    Inactive
-                                                @endif
                                             </td>
 
                                         </tr>

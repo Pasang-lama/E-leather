@@ -50,11 +50,11 @@
       </tr>
       <tr>
          <th>Provience</th>
-         <td>Bagmati</td>
+         <td> {{ auth()->user()->provience }}</td>
       </tr>
       <tr>
          <th>District</th>
-         <td>Kathmandu</td>
+         <td> {{ auth()->user()->district }}</td>
       </tr>
       <tr>
          <th>Address</th>

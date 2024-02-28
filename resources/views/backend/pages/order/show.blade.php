@@ -165,11 +165,6 @@
                                     <td>Shipping location</td>
                                     <td> {{ $order->shipping->name }}</td>
                                 </tr>
-                                <tr>
-                                    <td>Notes</td>
-                                    <td>{{ $order->order_notes }}</td>
-                                </tr>
-
                             </table>
                         </div>
                         <!-- /.card-body -->

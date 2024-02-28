@@ -113,6 +113,7 @@
                </div>
             </div>
             <div class="add-to-cart-button">
+               <input class="d-none product_qty"  type="number" id="numberTrendingProduct{{ $loop->iteration}}" value="1"  data-id="{{ $trending_product->id }}" data-sp="{{ $product_price }}" data-title="{{ $trending_product->product_name }}" data-size="{{ getProductAttr($trending_product->id, 'size') }}" data-stock="{{ getProductAttr($trending_product->id, 'stock') }}" />
                <button class="Add-to-card-btn addToCartAjax">Add to Cart <i class="fas fa-shopping-cart"></i></button>
                <button class="add-to-wishlist"><i class="fas fa-heart"></i></button>
             </div>
@@ -206,6 +207,7 @@
                   @endif
                </div>
                <div class="add-to-cart-button">
+               <input type="number" id="numberNewArrivals{{$loop->iteration}}" value="1" class=" d-none  product_qty" data-id="{{ $latest_product->id }}" data-sp="{{ $product_price }}" data-title="{{ $latest_product->product_name }}" data-size="{{ getProductAttr($latest_product->id, 'size') }}" data-stock="{{ getProductAttr($latest_product->id, 'stock') }}"/>
                   <button class="Add-to-card-btn addToCartAjax">Add to Cart <i class="fas fa-shopping-cart"></i></button>
                   <button class="add-to-wishlist"><i class="fas fa-heart"></i></button>
                </div>

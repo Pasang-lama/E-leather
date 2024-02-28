@@ -1,7 +1,5 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
    <a href="{{ route('home') }}" class="brand-link" target="_blank">
-   <img src="{{ asset('images/default.png') }}" alt="{{ env('APP_NAME') }}" class="brand-image img-circle elevation-3"
-      style="opacity: .8">
    <span class="brand-text font-weight-light">{{ env('APP_NAME') }}</span>
    </a>
    <div class="sidebar">

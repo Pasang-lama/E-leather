@@ -31,7 +31,7 @@ class ContactMailable extends Mailable
         $from_name = config('mail.from.name');
 
         return $this->from($email,$from_name)
-            ->subject('Order placed successfully')
+            ->subject('New inquiry message')
             ->view('mail.contactMail')
             ->with('data_array',$data_array);
 

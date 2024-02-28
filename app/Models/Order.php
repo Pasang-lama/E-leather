@@ -24,7 +24,6 @@ class Order extends Model
         'payment_method',
         'payment_status',
         'status',
-
     ];
 
     public function shipping()

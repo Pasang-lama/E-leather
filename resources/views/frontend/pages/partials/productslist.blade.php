@@ -48,6 +48,7 @@
                                 @endif
                             </div>
                             <div class="add-to-cart-button">
+                                <input class="product_qty d-none" type="number" id="numberNewArrivals{{ $loop->iteration }}" value="1"  data-id="{{ $product->id }}" data-sp="{{ $product_price }}" data-title="{{ $product->product_name }}" data-size="{{ getProductAttr($product->id, 'size') }}" data-sp="{{ $product->regular_price }}" data-stock="{{ getProductAttr($product->id, 'stock') }}" />
                                 <button class="Add-to-card-btn addToCartAjax">Add to Cart <i class="fas fa-shopping-cart"></i></button>
                                 <button class="add-to-wishlist"><i class="fas fa-heart"></i></button>
                             </div>
