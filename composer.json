@@ -10,7 +10,8 @@
     "require": {
         "php": "^7.3|^8.0",
         "bumbummen99/shoppingcart": "^4.0",
-        "cviebrock/eloquent-sluggable": "8.0",
+        "cviebrock/eloquent-sluggable": "8.0.8",
+        "dipesh79/laravel-esewa": "^1.0",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "intervention/image": "^2.7",
