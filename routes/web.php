@@ -293,3 +293,7 @@ Route::namespace("Admin")
 Route::get('sitemap.xml','Frontend\SitemapController@index')->name('frontend.sitemap');
 Route::post("ckeditor", "Admin\CkEditorController@upload")->name("upload");
 Route::get("getUploadedFiles", "Admin\CkEditorController@getUploadedFiles")->name("getUploadedFiles");
+
+/** payment **/
+Route::get("success.url", "CheckoutController@esewaSuccess")->name("success.url");
+Route::get("fail.url", "CheckoutController@esewaFail")->name("fail.url");
