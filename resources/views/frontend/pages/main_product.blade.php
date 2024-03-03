@@ -122,7 +122,7 @@
                             </p>
                         </div>
                         <div class="share-option py-2">
-                            <span>Share this Product</span>
+                            <!-- <span>Share this Product</span> -->
                             {{-- <ul>
                                 <li><a href=""><i class="fab fa-facebook"></i></a></li>
                                 <li><a href=""><i class="fab fa-instagram"></i></a></li>
