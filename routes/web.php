@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,11 +13,11 @@ Route::get("user/login", "Frontend\FrontendController@login")->name(
 Route::get("forgot-password", "Frontend\FrontendController@forgotPasswordIndex")->name(
     "user.forgotPasswordIndex"
 );
-Route::post ("user/emailVerify", "Frontend\FrontendController@emailVerify")->name(
+Route::post("user/emailVerify", "Frontend\FrontendController@emailVerify")->name(
     "user.email.verify"
 );
 
-Route::get ("reset-password", "Frontend\FrontendController@emailSubmit")->name(
+Route::get("reset-password", "Frontend\FrontendController@emailSubmit")->name(
     "user.password.reset"
 );
 
@@ -101,7 +102,7 @@ Route::get(
 Route::get("products/{slug}", "Frontend\FrontendController@products")->name(
     "products"
 );
-Route::get("products_search","Frontend\SearchController@products_search");
+Route::get("products_search", "Frontend\SearchController@products_search");
 Route::get("contact", "Frontend\FrontendController@contact")->name("contact");
 Route::post("contact_details", "Frontend\FrontendController@contact_details")->name("contact_details");
 
@@ -134,15 +135,15 @@ Route::get("page/{slug}", "Frontend\FrontendController@pages_details")->name(
     "frontend.pages_details"
 );
 
-Route::get("brands","Frontend\FrontendController@brands")->name(
+Route::get("brands", "Frontend\FrontendController@brands")->name(
     "frontend.brands"
 );
 
-Route::get("brands/{slug}","Frontend\FrontendController@brand_details")->name(
+Route::get("brands/{slug}", "Frontend\FrontendController@brand_details")->name(
     "frontend.brand_details"
 );
 
-Route::get("search","Frontend\SearchController@site_search")->name(
+Route::get("search", "Frontend\SearchController@site_search")->name(
     "frontend.site_search"
 );
 
@@ -190,13 +191,15 @@ Route::namespace("Customer")
 
             Route::resource("cart", "CartController");
             Route::resource("wishlist", "WishlistController");
-Route::resource("review", "ReviewController");
+            Route::resource("review", "ReviewController");
 
             // Route::resource("checkout", "CheckoutController");
             Route::get("checkout", "CheckoutController@index")->name("checkout.index");
             Route::post("checkout", "CheckoutController@store")->name("checkout.store");
             Route::get("checkout/finish", "CheckoutController@finish")->name("checkout.finish");
-
+            Route::get("checkout/pay", "CheckoutController@payProcess")->name("checkout.payProcess");
+            Route::get("checkout/pay/esewa-success", "CheckoutController@esewasuccess")->name("checkout.esewasuccess");
+            Route::get("checkout/pay/esewa-fail", "CheckoutController@esewafail")->name("checkout.esewafail");
         });
     });
 /** Customer Ends **/
@@ -290,10 +293,6 @@ Route::namespace("Admin")
         });
     });
 /** Backend Ends **/
-Route::get('sitemap.xml','Frontend\SitemapController@index')->name('frontend.sitemap');
+Route::get('sitemap.xml', 'Frontend\SitemapController@index')->name('frontend.sitemap');
 Route::post("ckeditor", "Admin\CkEditorController@upload")->name("upload");
 Route::get("getUploadedFiles", "Admin\CkEditorController@getUploadedFiles")->name("getUploadedFiles");
-
-/** payment **/
-Route::get("success.url", "CheckoutController@esewaSuccess")->name("success.url");
-Route::get("fail.url", "CheckoutController@esewaFail")->name("fail.url");

@@ -1,30 +1,33 @@
 <?php
 
 namespace App\Http\Controllers\Customer;
-
+use Cixware\Esewa\Client, Cixware\Esewa\Config;
 use App\Http\Controllers\Controller;
 use App\Models\Districts;
 use Illuminate\Http\Request;
-
 use App\Models\Order;
 use App\Models\Shipping;
 use App\Models\OrderItems;
 use App\Models\User;
-use App\Models\ProductAttribute;
 use App\Models\Provinces;
 use App\Models\ProductSizes;
 use App\Notifications\StatusNotification,
     App\Notifications\SendEmail;
-use Dipesh79\LaravelEsewa\LaravelEsewa;
-
 
 use Auth, Str, Notification, Cart, Session, Mail;
 
 class CheckoutController extends Controller
 {
+    private $esewa_success_url,
+        $esewa_failure_url,
+        $esewa_merchant_id;
+
     public function __construct()
     {
         $this->middleware(["XssSanitizer"]);
+        $this->esewa_success_url = url("/") . "/pay/esewa-success";
+        $this->esewa_failure_url = url("/") . "/pay/esewa-fail";
+        $this->esewa_merchant_id = env("ESEWA_MERCHANT_CODE", "ES-ELN");
     }
     public function index()
     {
@@ -46,6 +49,7 @@ class CheckoutController extends Controller
         $users = User::where("role", "admin")->first();
 
         $this->validate(
+
             $request,
             [
                 "name" => "regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/|required",
@@ -76,7 +80,6 @@ class CheckoutController extends Controller
         $shipping = Shipping::create($input);
         $shippingId = Shipping::latest()->first();
         $inputOrder = $request->all();
-
         $inputOrder["order_number"] = "ORD-" . strtoupper(Str::random(10));
         $inputOrder["user_id"] = Auth::user()->id;
         $inputOrder["sub_total"] = $request->sub_total;
@@ -86,7 +89,7 @@ class CheckoutController extends Controller
         $inputOrder["full_name"] = $request->input("name");
         $inputOrder["address"] = $request->input("street");
         if ($inputOrder['payment_method'] == 'esewa') {
-            $this->esewaPayment();
+            $this->payProcess($request);
         }
 
         try {
@@ -96,12 +99,6 @@ class CheckoutController extends Controller
             $districtBilling = Districts::where('id', Auth()->User()->district)->get("district_name");
             $order = Order::create($inputOrder);
             $orderId = Order::latest()->first();
-
-
-
-
-
-
             $date = date($orderId->created_at);
 
             //Insert into OrderItems Table
@@ -136,12 +133,9 @@ class CheckoutController extends Controller
                 "districtShipping" => $districtShipping[0]['district_name'],
                 "provienceBilling" => $provienceBilling[0]['province_name'],
                 "districtBilling" => $districtBilling[0]['district_name'],
-
             ];
-            // dd($email_details);
 
             Notification::send($users, new StatusNotification($notification_details));
-
             Mail::to(Auth::user()->email)->send(
                 new \App\Mail\OrderMailable($email_details)
             );
@@ -162,6 +156,22 @@ class CheckoutController extends Controller
             return redirect()
                 ->route("customer.checkout.finish")
                 ->with("success_msg", "Order placed successfully");
+
+                if ($request->ajax()) {
+                    return response()->json([
+                        "success" => "Payment process initated. Please wait..",
+                        "data" => [
+                            "redirect_url" => route("frontend.payprocess", [
+                                "gateway" => $all_input["radio-group"],
+                            ]),
+                        ],
+                    ]);
+                } else {
+                    return redirect()->route("frontend.payprocess", [
+                        "gateway" => $all_input["radio-group"],
+                    ]);
+                }
+
         } catch (\Exception $e) {
             return redirect()
                 ->route("customer.checkout.finish")
@@ -178,39 +188,111 @@ class CheckoutController extends Controller
         );
     }
 
-
-
-    public function esewaPayment()
+    public function payProcess(Request $request)
     {
-        //Store payment details in DB with pending status
-        $payment = new LaravelEsewa();
-        $amount = 123;
-        $order_id = 251264889; //Your Unique Order Id
-        $tax_amount = 0; //Tax Amount. If there is not tax amount then keep it 0
-        $service_charge = 0; // Serivce Charge. If there is no service charge then keep it 0
-        $delivery_charge = 0; // Delivery Charge. If there is no delivery charge then keep it 0.
-        $su = route('success.url');
-        $fu = route('fail.url');
-        return redirect($payment->esewaCheckout($amount, $tax_amount, $service_charge, $delivery_charge, $order_id, $su, $fu));
+        $gateway = $request->input('payment_method');
+        $total_amount = Session::get("total_amount");
+        if ($gateway == "esewa") {
+            if (\App::environment(["local", "staging", "dev", "development"])) {
+                $config = new Config(
+                    $this->esewa_success_url,
+                    $this->esewa_failure_url
+                );
+            } else {
+                $config = new Config(
+                    $this->esewa_success_url,
+                    $this->esewa_failure_url,
+                    $this->esewa_merchant_id
+                );
+            }
+            $response = $this->_processEsewa($config, $total_amount);
+        } else {
+                $order_details = Order::where([
+                    "order_number" => 1,
+                    "orders_payment_method" => "cod",
+                ])->first();
+                if ($order_details->payment_status == "unpaid") {
+                    $amount = $order_details->total_amount;
+                    $order_details->payment_status = "paid";
+                    $order_details->updated_at = Carbon::now()->format(
+                        "Y-m-d H:i:s"
+                    );
+                    $order_details->update();
+                    $this->_forget_payment_session($request);
+                    return view(
+                        "frontend.checkout_complete",
+                    );
+                } else {
+                    return redirect()->route("frontend.home");
+                }
+        }
     }
 
-    public function esewaSuccess(Request $request)
+    public function _processEsewa($gateway_configuration, $total_amount)
     {
-        $order_id = $request->oid;
-        $payment = Payment::where('order_id', $order_id)->first();
-        $payment->status = "Success";
-        $payment->save();
-
-        //Other Tasks
-
+        $total_amount = (int) $total_amount;
+        $esewa = new Client($gateway_configuration);
+        $esewa->process(1, $total_amount, 0, 0, 0);
     }
 
-
-    public function esewaFail(Request $request)
+    public function esewasuccess(Request $request)
     {
-        $payment = Payment::where('order_id', $request->oid)->first();
-        $payment->status = "Fail";
-        $payment->save();
-        //Other Tasks           
+        $order_id = $request->input("oid");
+        $amount = $request->input("amt");
+        $refid = $request->input("refId");
+        $payment_gateway = Str::ucfirst("esewa");
+        $title = "Payment Success";
+
+        $order_details = Order::where([
+            "order_number" => $id,
+            "orders_payment_method" => "esewa",
+        ])->first();
+
+        if ($order_details->payment_status == "unpaid") {
+            $order_details->payment_status = "paid";
+            $order_details->updated_at = Carbon::now()->format("Y-m-d H:i:s");
+            $order_details->update();
+            $this->_create_invoice($order_details, true);
+            $this->_forget_payment_session($request);
+            return view(
+                "frontend.paymentsuccess",
+                compact(
+                    "title"
+                )
+            );
+        } else {
+            return redirect()->route("frontend.home");
+        }
+    }
+
+    public function esewafail(Request $request)
+    {
+        $order_id = $request->input("pid");
+        $title = "Payment Failed";
+        $payment_gateway = Str::ucfirst("esewa");
+        return view(
+            "frontend.paymentfail",
+            compact(
+                "title"
+            )
+        );
+    }
+
+    public function _forget_payment_session($request)
+    {
+        $visitor_id = Session::get("visitor_id");
+        Session::forget("total_cart_value");
+        Session::forget("payment_gateway");
+        Cart::instance($visitor_id)->destroy();
+
+        $updated_data = [
+            "delivery_charges" => 0,
+            "delivery_address" => "",
+            "cart_sub_total" => "",
+            "formatted_cart_total" => "",
+        ];
+        $request->session()->put("delivery_charges", [
+            $visitor_id => $updated_data,
+        ]);
     }
 }

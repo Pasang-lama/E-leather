@@ -12,7 +12,8 @@ class CategoryController extends Controller
 {
     use ImageUpload;
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->middleware(["XssSanitizer"]);
     }
 
@@ -23,7 +24,7 @@ class CategoryController extends Controller
             ->orderBy("id", "asc")
             ->get();
         $title = "Categories";
-        return view("backend/pages/category/index", compact("categories","title"));
+        return view("backend/pages/category/index", compact("categories", "title"));
     }
 
     public function create()
@@ -32,7 +33,7 @@ class CategoryController extends Controller
             ->with("childrenCategories")
             ->get();
         $title = "Create Category";
-        return view("backend/pages/category/create", compact("categories","title"));
+        return view("backend/pages/category/create", compact("categories", "title"));
     }
 
     public function store(Request $request)

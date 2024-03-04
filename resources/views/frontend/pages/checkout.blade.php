@@ -23,7 +23,7 @@
                   <h4>Billing Address</h4>
                </div>
                @php($cart_items = Cart::instance(auth()->user()->id)->content())
-               <form id="add-to-order-form" action="{{ route('customer.checkout.store') }}" method="post" autocomplete="off">
+               <form id="add-to-order-form" class="order-checkout-form" action="{{ route('customer.checkout.store') }}" method="post" autocomplete="off">
                   @csrf
                   <input type="hidden" value="{{Cart::subtotalFloat()}}" name="sub_total" readonly />
                   <div class="row gy-4">
@@ -175,15 +175,15 @@
                   <div class="col-lg-12 col-md-12 col-sm-12">
                      <div class="cash-on-delivery">
                         <div class="form-check">
-                           <input class="form-check-input {{ $errors->has('payment_method') ? 'is-invalid' : '' }}" type="radio" value="cod" name="payment_method" id="payment_method_cod" >
-                           <label class="form-check-label" for="payment_method_cod">Cash on delivery</label> 
+                           <input class="form-check-input" type="radio" value="cod" name="payment_method" checked id="payment_method_cod">
+                           <label class="form-check-label" for="payment_method_cod">Cash on delivery</label>
                            <br>
-                           <input class="form-check-input {{ $errors->has('payment_method') ? 'is-invalid' : '' }}" type="radio" value="esewa" name="payment_method" id="payment_method_esewa" checked="checked">
+                           <input class="form-check-input" type="radio" value="esewa" name="payment_method" id="payment_method_esewa">
                            <label class="form-check-label" for="payment_method_esewa"> Esewa</label>
                            @error('payment_method')
-                           <span class="text-danger">
+                           <div class="text-danger">
                               {{ $errors->first('payment_method') }}
-                           </span>
+                           </div>
                            @enderror
                         </div>
                      </div>
@@ -206,8 +206,41 @@
                   </div>
                </div>
                <div class="shopping-action-button justify-content-start ">
-                  <div class="button me-3">
-                     <input type="submit" value=" Order Now" class="order-now-button">
+                  <div class="button">
+                     <input type="submit" value="Order Now" class="order-now-button">
+                  </div>
+               </div>
+               </form>
+               <?php
+               $secret_key = '8gBm/:&EnhH.1/q'; // Replace with your eSewa secret key
+               // Your existing form fields
+               $amount =  Cart::subtotalFloat();
+               $tax_amount = 0;
+               $total_amount =  $amount + $tax_amount ;
+               $transaction_uuid = 'El'.rand(10000, 99999);
+               $product_code = 'EPAYTEST';
+               
+               // Calculate the signature
+               $message = implode(',', ["total_amount={$total_amount}", "transaction_uuid={$transaction_uuid}", "product_code={$product_code}"]);
+               $signature = hash_hmac('sha256', $message, $secret_key, true);
+               // echo base64_encode($signature);
+               ?>
+
+               <form class="e-sewa-form" action="https://rc-epay.esewa.com.np/api/epay/main/v2/form" method="POST">
+                  <input type="hidden" id="total_amount" name="total_amount" value="{{ $amount}}">
+                  <input type="hidden" id="transaction_uuid" name="transaction_uuid" value="{{$transaction_uuid}}">
+                  <input type="hidden" id="product_code" name="product_code" value="EPAYTEST">
+                  <input type="hidden" id="amount" name="amount" value="{{ $total_amount}}">
+                  <input type="hidden" id="tax_amount" name="tax_amount" value="{{$tax_amount}}">
+                  <input type="hidden" id="product_service_charge" name="product_service_charge" value="0">
+                  <input type="hidden" id="product_delivery_charge" name="product_delivery_charge" value="0">
+                  <input type="hidden" id="success_url" name="success_url" value="{{route('customer.checkout.finish')}}">
+                  <input type="hidden" id="failure_url" name="failure_url" value="http://esewa.com.np">
+                  <input type="hidden" id="signed_field_names" name="signed_field_names" value="total_amount,transaction_uuid,product_code">
+                  <input type="hidden" id="signature" name="signature" value="<?php echo base64_encode($signature); ?>">
+                  <div class="shopping-action-button justify-content-start ">
+                  <div class="button">
+                  <input type="submit" class="pay-with-e-sewa" >
                   </div>
                </div>
                </form>
@@ -246,24 +279,16 @@
                </table>
                <table class=" conclusiion-table table">
                   <tbody>
-                     <tr>
+                     <!-- <tr>
                         <td>Sub-Total</td>
                         <td class="order_subtotal" data-price="{{ Cart::subtotalFloat() }}">
                            Rs.{{ Cart::subtotalFloat() }}
                         </td>
-                     </tr>
-                     {{--
-                     <tr>
-                        <td>Total weight of all product</td>
-                        <td> @if (Cart::weightFloat() / 1000 < 1) {{ 'less than 1 kg' }} @else
-                     {{ Cart::weightFloat() / 1000 }} kg @endif
-                     </td>
-                     </tr>
-                     --}}
-                     <tr>
+                     </tr> -->
+                     <!-- <tr>
                         <td>Shipping Cost</td>
                         <td>Rs. <span id="shipping_charge">0</span></td>
-                     </tr>
+                     </tr> -->
                      <tr>
                         <td>Total</td>
                         <td>Rs.<span id="order_total_price">{{ Cart::subtotalFloat() }}</span></td>

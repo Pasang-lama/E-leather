@@ -1,41 +1,4 @@
 <header>
-    <div class="top-header">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-3 col-md-4 col-sm-12">
-                    <ul class="social-media-icons">
-                        @if ($setting_com->facebook_link != null)
-                            <li><a href="{{ $setting_com->facebook_link }}" target="_blank" src="facebook"><i
-                                        class="fab fa-facebook"></i></a></li>
-                        @endif
-                        @if ($setting_com->instagram_link != null)
-                            <li><a href="{{ $setting_com->instagram_link }}" target="_blank" src="instagram"><i
-                                        class="fab fa-instagram"></i></a></li>
-                        @endif
-                        @if ($setting_com->tiktok_link != null)
-                            <li><a href="{{ $setting_com->tiktok_link }}" target="_blank" src="tiktok"><i
-                                        class="fab fa-tiktok"></i></a></li>
-                        @endif
-                        @if ($setting_com->youtube_link != null)
-                            <li><a href="{{ $setting_com->youtube_link }}" target="_blank" src="youtube"><i
-                                        class="fab fa-youtube"></i></a></li>
-                        @endif
-                    </ul>
-                </div>
-                <div class="col-lg-6 col-md-5 col-sm-12">
-                    <form action="{{route('frontend.site_search')}}" class="top-header-search-bar" autocomplete="off">
-                        <input type="text" name="keywords" placeholder="Search the Store" value="{{ isset($_GET['keywords']) ? $_GET['keywords'] : ''}}" />
-                        <button class="top-search-button" type="submit"><i class="fas fa-search"></i></button>
-                    </form>
-
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-12 text-end">
-                    <span>Available 24/7 at</span><br>
-                    <span>{!! getClickableLinks($setting_com->mobile_number, "phone") !!}</span>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="main-header ">
         <nav class="navbar navbar-expand-lg navbar-light bg-light ">
             <div class="container">

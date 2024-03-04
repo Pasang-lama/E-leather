@@ -38,26 +38,6 @@
             </li>
 
             <li class="nav-item has-treeview">
-               <a href="{{ route('admin.video.index') }}"
-                  class="nav-link  @if (Route::is('admin.video.*')) active @endif">
-                  <i class="nav-icon fa fa-play"></i>
-                  <p>
-                     Video
-                  </p>
-               </a>
-            </li>
-
-            <li class="nav-item has-treeview">
-               <a href="{{ route('admin.blogs.index') }}"
-                  class="nav-link  @if (Route::is('admin.blogs.*')) active @endif">
-                  <i class="nav-icon fas fa-newspaper"></i>
-                  <p>
-                     Blogs
-                  </p>
-               </a>
-            </li>
-
-            <li class="nav-item has-treeview">
                <a href="{{ route('admin.banner.index') }}"
                   class="nav-link @if (Route::is('admin.banner.*')) active @endif">
                   <i class="nav-icon fas fa-image"></i>
@@ -87,27 +67,7 @@
                </a>
             </li>
 
-            <li class="nav-item has-treeview">
-               <a href="{{ route('admin.homepageextra.index') }}"
-                  class="nav-link  @if (Route::is('admin.homepageextra.*')) active @endif">
-                  <i class="nav-icon fas fa-cog"></i>
-                  <p>
-                  Family Fashion
-                  </p>
-               </a>
-            </li>
-
             <li class="nav-header">Products</li>
-
-            <li class="nav-item has-treeview">
-               <a href="{{ route('admin.brand.index') }}"
-                  class="nav-link  @if (Route::is('admin.brand.*')) active @endif">
-                  <i class="nav-icon fas fa-table"></i>
-                  <p>
-                     Brands
-                  </p>
-               </a>
-            </li>
 
             <li class="nav-item has-treeview">
                <a href="{{ route('admin.category.index') }}"
@@ -128,22 +88,13 @@
                   </p>
                </a>
             </li>
+
             <li class="nav-item has-treeview">
                <a href="{{ route('admin.order.index') }}"
                   class="nav-link @if (Route::is('admin.order.*')) active @endif">
                   <i class="nav-icon fas fa-chart-area"></i>
                   <p>
                      Orders
-                  </p>
-               </a>
-            </li>
-
-            <li class="nav-item has-treeview d-none" >
-               <a href="{{ route('admin.shipping.index') }}"
-                  class="nav-link @if (Route::is('admin.shipping.*')) active @endif">
-                  <i class="nav-icon fas fa-truck"></i>
-                  <p>
-                     Shipping
                   </p>
                </a>
             </li>

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+
 use App\Http\Controllers\Controller;
 
 use App\Models\AboutUs;
@@ -25,7 +26,7 @@ class AboutUsController extends Controller
     {
         $title = "About us";
         $aboutUs = AboutUs::firstOrFail();
-        return view("backend.pages.aboutUs.index", compact("aboutUs","title"));
+        return view("backend.pages.aboutUs.index", compact("aboutUs", "title"));
     }
 
     public function store(Request $request)
@@ -41,9 +42,9 @@ class AboutUsController extends Controller
             ],
             [
                 "about_us_description.required" =>
-                    "About us description is required",
+                "About us description is required",
                 "about_us_image.mimes" =>
-                    "About us image must have image with extension jpeg,png,jpg,gif"
+                "About us image must have image with extension jpeg,png,jpg,gif"
             ]
         );
 

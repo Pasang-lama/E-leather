@@ -4,15 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use File, Image;
+use File;
 
 class CkEditorController extends Controller
 {
     private $uploadPath;
-    private $uploadThumbPath;
-    private $width;
-    private $height;
-
     public function __construct()
     {
         $this->uploadPath = public_path('images/ckeditor/');

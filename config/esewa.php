@@ -1,6 +1,7 @@
 <?php
 
-return array(
-    'scd'=>env('ESEWA_MERCHANT_ID','EPAYTEST'),
-    'env'=>env('ESEWA_ENV','Sandbox'),
-);
+return [
+    'success_url' => env('ESEWA_SUCCESS_URL', ''),
+    'failure_url' => env('ESEWA_FAILURE_URL', ''),
+    'merchant_id' => env('ESEWA_MERCHANT_ID', ''),
+];

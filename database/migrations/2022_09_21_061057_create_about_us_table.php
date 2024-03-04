@@ -18,6 +18,7 @@ class CreateAboutUsTable extends Migration
             $table->longtext('about_us_description')->nullable();
             $table->string('about_us_image')->nullable();
             $table->timestamps();
+            
         });
     }
 

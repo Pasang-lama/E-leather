@@ -91,35 +91,6 @@ class CartController extends Controller
                 ->with("error_msg", "Item cannot be added to cart");
         }
 
-        // $request->validate(
-        //     [
-        //         "id" => "required|exists:products,id",
-        //         "size" => "required",
-        //     ],
-        //     [
-        //         "id.required" => "Product is required",
-        //         "id.exists" => "Product already exists",
-        //         "size.required" => "Size is required",
-        //     ]
-        // );
-
-        // Cart::instance($this->user_id)
-        //     ->add(
-        //         $request->id,
-        //         $request->product_name,
-        //         $request->quantity,
-        //         $request->price,
-        //         isset($request->weight) ? $request->weight : 0,
-        //         [
-        //             $request->size,
-        //             isset($request->product_attr_image)
-        //                 ? $request->product_attr_image
-        //                 : "",
-        //             isset($request->color_name) ? $request->color_name : "",
-        //         ]
-        //     )
-        //     ->associate("App\Models\Product");
-
     }
 
     public function update(Request $request)

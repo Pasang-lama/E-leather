@@ -265,17 +265,6 @@ $(document).ready(function () {
         });
     });
 
-    // $(".product-card").on("mouseenter", function() {
-    //   if ($('body').hasClass('main_product')) {
-    //     $("button.product-sizes-listing").removeClass("active");
-    //   }
-    //   $("div.product-sizes-listing").removeClass("active");
-    //   $("input.product_qty").removeClass("qty_active");
-    //   var pcount = $(this).attr('data-pcount');
-    //   var sectionName = $(this).attr('data-section');
-    //   $('#' + sectionName + 'Div' + pcount).addClass("active");
-    //   $('#' + sectionName + pcount).addClass("qty_active");
-    // });
 
     $(document).on("mouseover", ".product-card", function (e) {
         if ($("body").hasClass("main_product")) {
@@ -289,11 +278,6 @@ $(document).ready(function () {
         $("#" + sectionName + pcount).addClass("qty_active");
     });
 
-    // $('.product-card').on("mouseleave", function() {
-    //   if ($('body').hasClass('main_product')) {
-    //     $("button.product-sizes-listing:first").addClass("active");
-    //   }
-    // }).mouseleave();
 
     $(document).on("mouseout", ".product-card", function (e) {
         if ($("body").hasClass("main_product")) {
@@ -301,11 +285,6 @@ $(document).ready(function () {
         }
     });
 
-    // $('.add-to-cart').on("mouseenter", function() {
-    //   $("div.product-sizes-listing").removeClass("active");
-    //   $("input.product_qty").removeClass("qty_active");
-    //   $(this).prev('input.product_qty').addClass('qty_active');
-    // });
 
     $(document).on("mouseover", ".add-to-cart", function (e) {
         $("div.product-sizes-listing").removeClass("active");
@@ -783,20 +762,6 @@ $(document).ready(function () {
         $(".search-box").toggle();
     });
 
-    // zoom on hover
-    const product = document.getElementById("product-main-images");
-    const img = document.getElementById("products-images");
-    product.addEventListener("mousemove", (e) => {
-        const x = e.clientX - e.target.offsetLeft;
-        const y = e.clientY - e.target.offsetTop;
-        //   console.log(x,y);
-        img.style.transformOrigin = `${x}px ${y}px`;
-        img.style.transform = "scale(1.9)";
-    });
-    product.addEventListener("mouseleave", () => {
-        img.style.transformOrigin = "center";
-        img.style.transform = "scale(1)";
-    });
     //adding active class on product preview images list
     $(document).on("click", ".product-preview-list", function () {
         $(".product-preview-list").removeClass("active");
@@ -986,6 +951,7 @@ $(window).scroll(function () {
         $(".nav-Search-bar").removeClass("nav-sticky-bar");
     }
 });
+
 window.onload = function () {
     var imgs = document.getElementsByClassName(" product-preview-list");
     for (var i = 0; i < imgs.length; i++) {
@@ -998,13 +964,6 @@ window.onload = function () {
     }
 };
 
-// var waypoint = new Waypoint({
-//   element: document.getElementById('px-offset-waypoint'),
-//   handler: function(direction) {
-//     notify('I am 20px from the top of the window')
-//   },
-//   offset: 20
-// })
 
 function detectMob() {
     var isMobile = /iphone|ipod|android|ie|blackberry|fennec/.test(
@@ -1196,15 +1155,54 @@ function isCustomerLoggedIn() {
     }
 }
 
-//  wow js initialization
-var wow = new WOW({
-    boxClass: "wow",
-    animateClass: "animated",
-    offset: 0,
-    mobile: true,
-    live: true,
-    callback: function (box) {},
-    scrollContainer: null,
-    resetAnimation: true,
+$(".pay_btn_label").click(function (e) {
+    e.preventDefault();
+    // var site_url = $('body').attr('data-siteurl');
+    var payment_gateway = $("input[name=payment_method]:checked").val();
+    var formaction = $("#add-to-order-form").attr("action");
+    var formdata = $("#add-to-order-form").serialize();
+    var form_method = $("#add-to-order-form").attr("method");
+
+    $.ajax({
+        url: formaction,
+        method: form_method,
+        data: formdata,
+        beforeSend: function () {
+                $(".pay_btn_label")
+                    .html(
+                        "<i class='fas fa-spinner fa-pulse fa-1x'></i> " +
+                            btn_label
+                    )
+                    .prop("disabled", false);
+        },
+        success: function (response) {
+            if (response) {
+                if (response.success) {
+                    showMessage(response.success, "success");
+                    if (response.data.redirect_url != "") {
+                        window.location.href = response.data.redirect_url;
+                    } else {
+                        window.location.reload();
+                    }
+                } else {
+                    showMessage(response.error, "error");
+                }
+            }
+            $(".pay_btn_label").html(btn_label).prop("disabled", false);
+        },
+        error: function (response) {
+            if (
+                typeof response.responseJSON.errors !== "" &&
+                response.responseJSON.errors
+            ) {
+                $.each(response.responseJSON.errors, function (key, value) {
+                    showMessage(value, "error");
+                });
+            }
+            $(".pay_btn_label").html(btn_label).prop("disabled", false);
+        },
+    }).fail(function (response) {
+        $(".pay_btn_label").html(btn_label).prop("disabled", false);
+    });
 });
-new WOW().init();
+

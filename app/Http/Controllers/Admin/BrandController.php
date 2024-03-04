@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use Illuminate\Http\Request;
-use Intervention\Image\Facades\Image;
 use App\Traits\ImageUpload;
 use Illuminate\Support\Facades\File;
 

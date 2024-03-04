@@ -49,14 +49,6 @@
          <td> {{ auth()->user()->phone }}</td>
       </tr>
       <tr>
-         <th>Provience</th>
-         <td> {{ auth()->user()->provience }}</td>
-      </tr>
-      <tr>
-         <th>District</th>
-         <td> {{ auth()->user()->district }}</td>
-      </tr>
-      <tr>
          <th>Address</th>
          <td>{{ auth()->user()->address }}</td>
       </tr>

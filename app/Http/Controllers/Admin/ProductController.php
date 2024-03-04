@@ -40,7 +40,6 @@ class ProductController extends Controller
             ->get();
         $brand = Brand::orderBy("id", "asc")->get();
         $products = Product::orderBy("id", "asc")->get();
-
         return view(
             "backend/pages/product/create",
             compact("categories", "brand", "products", "title")
@@ -82,6 +81,7 @@ class ProductController extends Controller
                     "category_id.required" => "Category is required",
                     "suitable_for.required" => "Suitable For is required"
                 ]
+
             );
 
             $input = $request->all();
@@ -127,7 +127,6 @@ class ProductController extends Controller
                 $product_categories->product_id = $product->id;
                 $product_categories->save();
             }
-
             return redirect()
                 ->route("admin.product.index")
                 ->with("success_msg", "Product added successfully.");
@@ -172,7 +171,6 @@ class ProductController extends Controller
                     "nullable|lt:regular_price|regex:/^\d{1,13}(\.\d{1,4})?$/",
                     "category_id" => "required",
                     "suitable_for" => "required",
-                    // "description"=>"required|min:150"
                 ],
                 [
                     "product_name.required" => "Product name is required",

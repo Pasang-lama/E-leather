@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "25fd304c6874f6e0fca8f470fc4d90a2",
+    "content-hash": "116c7c1bc4b18d3c93f3a73705e0d482",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -256,6 +256,68 @@
                 }
             ],
             "time": "2023-12-11T17:09:12+00:00"
+        },
+        {
+            "name": "cixware/esewa-php-sdk",
+            "version": "2.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cixware/esewa-php-sdk.git",
+                "reference": "1111376ed179c667adbf5327390c45177cbfdf24"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cixware/esewa-php-sdk/zipball/1111376ed179c667adbf5327390c45177cbfdf24",
+                "reference": "1111376ed179c667adbf5327390c45177cbfdf24",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-simplexml": "*",
+                "php": ">=7.4"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.42",
+                "phpunit/phpunit": "^9.6.15",
+                "rector/rector": "^0.18.13"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Cixware\\Esewa\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Cixware",
+                    "email": "support@cixware.io",
+                    "homepage": "https://cixware.io"
+                },
+                {
+                    "name": "Madan Sapkota",
+                    "email": "contact+github@madansapkota.com",
+                    "homepage": "https://madansapkota.com"
+                }
+            ],
+            "description": "eSewa payment gateway integration in PHP.",
+            "homepage": "https://github.com/cixware/esewa-php-sdk",
+            "keywords": [
+                "api",
+                "esewa",
+                "gateway",
+                "nepal",
+                "payment",
+                "php"
+            ],
+            "support": {
+                "issues": "https://github.com/cixware/esewa-php-sdk/issues",
+                "source": "https://github.com/cixware/esewa-php-sdk/tree/2.6.0"
+            },
+            "time": "2023-12-25T16:06:01+00:00"
         },
         {
             "name": "cocur/slugify",
@@ -556,52 +618,6 @@
             "time": "2022-10-27T11:44:00+00:00"
         },
         {
-            "name": "dipesh79/laravel-esewa",
-            "version": "v1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Dipesh79/LaravelEsewa.git",
-                "reference": "c424044f607278bddbb1f4745b8b1b30ef6a3f3f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Dipesh79/LaravelEsewa/zipball/c424044f607278bddbb1f4745b8b1b30ef6a3f3f",
-                "reference": "c424044f607278bddbb1f4745b8b1b30ef6a3f3f",
-                "shasum": ""
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Dipesh79\\LaravelEsewa\\EsewaServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Dipesh79\\LaravelEsewa\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Dipesh79",
-                    "email": "dipeshkhanal79@gmail.com",
-                    "homepage": "https://www.khanaldipesh.com.np",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Laravel Esewa - A simple laravel package to integrate esewa payment.",
-            "support": {
-                "issues": "https://github.com/Dipesh79/LaravelEsewa/issues",
-                "source": "https://github.com/Dipesh79/LaravelEsewa/tree/v1"
-            },
-            "time": "2022-12-11T06:08:52+00:00"
-        },
-        {
             "name": "doctrine/cache",
             "version": "1.13.0",
             "source": {
@@ -702,16 +718,16 @@
         },
         {
             "name": "doctrine/dbal",
-            "version": "3.8.2",
+            "version": "3.8.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "a19a1d05ca211f41089dffcc387733a6875196cb"
+                "reference": "db922ba9436b7b18a23d1653a0b41ff2369ca41c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/a19a1d05ca211f41089dffcc387733a6875196cb",
-                "reference": "a19a1d05ca211f41089dffcc387733a6875196cb",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/db922ba9436b7b18a23d1653a0b41ff2369ca41c",
+                "reference": "db922ba9436b7b18a23d1653a0b41ff2369ca41c",
                 "shasum": ""
             },
             "require": {
@@ -727,12 +743,12 @@
                 "doctrine/coding-standard": "12.0.0",
                 "fig/log-test": "^1",
                 "jetbrains/phpstorm-stubs": "2023.1",
-                "phpstan/phpstan": "1.10.57",
+                "phpstan/phpstan": "1.10.58",
                 "phpstan/phpstan-strict-rules": "^1.5",
                 "phpunit/phpunit": "9.6.16",
                 "psalm/plugin-phpunit": "0.18.4",
                 "slevomat/coding-standard": "8.13.1",
-                "squizlabs/php_codesniffer": "3.8.1",
+                "squizlabs/php_codesniffer": "3.9.0",
                 "symfony/cache": "^5.4|^6.0|^7.0",
                 "symfony/console": "^4.4|^5.4|^6.0|^7.0",
                 "vimeo/psalm": "4.30.0"
@@ -795,7 +811,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/dbal/issues",
-                "source": "https://github.com/doctrine/dbal/tree/3.8.2"
+                "source": "https://github.com/doctrine/dbal/tree/3.8.3"
             },
             "funding": [
                 {
@@ -811,7 +827,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-02-12T18:36:36+00:00"
+            "time": "2024-03-03T15:55:06+00:00"
         },
         {
             "name": "doctrine/deprecations",
