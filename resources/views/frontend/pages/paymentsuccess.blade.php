@@ -15,11 +15,15 @@
    <div class="container">
       <div class="row gy-4">
          <div class="col-lg-3 col-md-12 col-sm-12">
+
             @include('frontend.customer.sidebar')
          </div>
          <div class="col-lg-9 col-md-12 col-sm-12">
-           <p>Payment unsuccessfull !!,  Oder failed. Please try again.</p>
-            <div class="button mt-5">
+            <div class="alert alert-success success-notification">
+               <p>Payment successfull !!, YOur oder Placed successfully.</p>
+            </div>
+            <div class="button d-flex mt-5 gap-3">
+               <a href="{{ route('customer.order.index') }} " class="btn btn-primary">View My Order</a>
                <a href="{{ route('home') }}" class="btn btn-primary"> Continue Shopping</a>
             </div>
          </div>

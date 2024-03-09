@@ -29,9 +29,6 @@ Route::post(
     "Frontend\FrontendController@loginSubmit"
 )->name("user.login.submit");
 
-// Route::get("user/register", "Frontend\FrontendController@register")->name(
-//     "user.register"
-// );
 
 Route::post(
     "user/register/submit",
@@ -72,8 +69,6 @@ Route::get(
     "Frontend\FrontendController@handleFacebookCallback"
 );
 
-// Route::get("shop", "Frontend\FrontendController@shop")->name("shop");
-
 Route::get(
     "category/{slug}",
     "Frontend\FrontendController@single_category"
@@ -83,10 +78,6 @@ Route::get(
     "product-details/{slug}",
     "Frontend\FrontendController@main_product"
 )->name("main_product");
-
-// Route::get("products", "Frontend\FrontendController@all_products")->name(
-//     "allproducts"
-// );
 
 
 Route::get(
@@ -106,18 +97,8 @@ Route::get("products_search", "Frontend\SearchController@products_search");
 Route::get("contact", "Frontend\FrontendController@contact")->name("contact");
 Route::post("contact_details", "Frontend\FrontendController@contact_details")->name("contact_details");
 
-
-// Route::get('latest/products','Frontend\FrontendController@latest_products')->name('latest.products');
-
-// Route::get("track_order", "Frontend\FrontendController@trackorder")->name(
-//     "trackorder"
-// );
-
 Route::get("getForm", "Frontend\FrontendController@getForm");
 Route::get("getDistricts", "Customer\CustomerboardController@getDistricts");
-
-//FindSize
-// Route::get("size", "Frontend\FrontendController@findsize");
 
 Route::get("about-us", "Frontend\FrontendController@aboutus")->name(
     "frontend.aboutus"
@@ -172,13 +153,7 @@ Route::namespace("Customer")
             )->name("logout");
             Route::resource("order", "OrderController");
             Route::get("order_items/{id}", "OrderController@order_items");
-
-
-            // Route::delete(
-            //     "wishlist/bulk-delete/{id}",
-            //     "WishlistController@bulkdel"
-            // )->name("wishlist.bulkdel");
-
+            
             Route::get(
                 "reset_password_without_token",
                 "ResetPasswordController@show_password_reset_form"
@@ -193,13 +168,10 @@ Route::namespace("Customer")
             Route::resource("wishlist", "WishlistController");
             Route::resource("review", "ReviewController");
 
-            // Route::resource("checkout", "CheckoutController");
             Route::get("checkout", "CheckoutController@index")->name("checkout.index");
             Route::post("checkout", "CheckoutController@store")->name("checkout.store");
             Route::get("checkout/finish", "CheckoutController@finish")->name("checkout.finish");
-            Route::get("checkout/pay", "CheckoutController@payProcess")->name("checkout.payProcess");
-            Route::get("checkout/pay/esewa-success", "CheckoutController@esewasuccess")->name("checkout.esewasuccess");
-            Route::get("checkout/pay/esewa-fail", "CheckoutController@esewafail")->name("checkout.esewafail");
+
         });
     });
 /** Customer Ends **/
@@ -296,3 +268,8 @@ Route::namespace("Admin")
 Route::get('sitemap.xml', 'Frontend\SitemapController@index')->name('frontend.sitemap');
 Route::post("ckeditor", "Admin\CkEditorController@upload")->name("upload");
 Route::get("getUploadedFiles", "Admin\CkEditorController@getUploadedFiles")->name("getUploadedFiles");
+
+
+// esewa 
+Route::get("pay/esewa-success", "Customer\CheckoutController@esewasuccess")->name("pay.esewa-success");
+Route::get("pay/esewa-fail", "Customer\CheckoutController@esewafail")->name("pay.esewa-fail");

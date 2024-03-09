@@ -42,7 +42,7 @@
                                  @enderror
                               </div>
                            </div>
-                           <div class="col-md-6">
+                           <div class="col-md-6 d-none">
                               <div class="form-group">
                                  <label>Slug</label>
                                  <input type="text" class="form-control {{ $errors->has('slug') ? 'is-invalid' : '' }}" name="slug" id="slug" value="{{ $product->slug }}" autocomplete="off" />
@@ -53,11 +53,11 @@
                                  @enderror
                               </div>
                            </div>
-                           <div class="col-md-6">
+                           <div class="col-md-6 d-none">
                               <div class="form-group">
                                  <label>Brand</label>
                                  <select class="form-control select2 {{ $errors->has('brand_id') ? 'is-invalid' : '' }}" name="brand_id" style="width: 100%;">
-                                    <option value="" selected>--Select-Brand--</option>
+                                    <option value="1" selected>--Select-Brand--</option>
                                     @foreach ($brand as $b)
                                     <option value="{{ $b->id }}" {{ $product->brand_id == $b->id ? 'selected' : '' }}>
                                        {{ $b->name }}
@@ -83,12 +83,6 @@
                                        >
                                        {{ $category->category_name }}
                                     </option>
-                                    @foreach ($category->childrenCategories as $childCategory)
-                                    @include('backend/pages/product/recursive_edit_child_category',
-                                    ['child_category' => $childCategory ,
-                                    'product'=>$product
-                                    ])
-                                    @endforeach
                                     @endforeach
                                  </select>
                                  @error('category_id')
@@ -98,10 +92,10 @@
                                  @enderror
                               </div>
                            </div>
-                           <div class="col-md-6">
+                           <div class="col-md-6 d-none">
                               <div class="form-group">
                                  <label>Product Weight(in KG)</label>
-                                 <input type="number" class="form-control {{ $errors->has('weight') ? 'is-invalid' : '' }}" name="weight" id="weight" value="{{ $product->weight }}" placeholder="Enter Weight of Product" autocomplete="off" />
+                                 <input type="number" class="form-control {{ $errors->has('weight') ? 'is-invalid' : '' }}" name="weight" id="weight" value="2" placeholder="Enter Weight of Product" autocomplete="off" />
                                  @error('weight')
                                  <span class="text-danger">
                                     {{ $errors->first('weight') }}

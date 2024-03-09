@@ -137,7 +137,7 @@
                         {{ $featuredCategory->category_name }}
                      </div>
                      <div class="button mt-5">
-                        <a href="{{ route('category', [$featuredCategory->slug ]) }}"> Read more</a>
+                        <a href="{{ route('category', [$featuredCategory->slug ]) }}">View All Products</a>
                      </div>
                   </div>
                   <div class="col-lg-6 col-md-6 col-sm-12 p-3">
@@ -153,6 +153,49 @@
    </div>
 </section>
 @endif
+
+<section class="categories-section custom-margin">
+   <div class="container">
+      <div class="row gy-4">
+         <div class="col-lg-4 col-md-6 col-sm-12 men-section  wow fadeInDown animated">
+            <a href="{{ ($homepageextras->homepageextra_mentilelink != '') ? $homepageextras->homepageextra_mentilelink : route('productsSuitableFor', ['men']) }}">
+               <div class="categories">
+                  <figure>
+                     <img class="d-block w-100" src="{{ ($homepageextras->homepageextra_mentileimg != '' && file_exists(public_path('images/homepageextra/'.$homepageextras->homepageextra_mentileimg))) ? asset('images/homepageextra/'.$homepageextras->homepageextra_mentileimg) : asset('frontend/images/men.png') }}" alt="Men's Collection">
+                  </figure>
+                  <div class="categories-name">
+                     <span>Men's</span>
+                  </div>
+               </div>
+            </a>
+         </div>
+         <div class="col-lg-4 col-md-6 col-sm-12 kid-section  wow fadeInDown animated" data-wow-delay="0.5s">
+            <a href="{{ ($homepageextras->homepageextra_kidtilelink != '') ? $homepageextras->homepageextra_kidtilelink : route('productsSuitableFor', ['kids']) }}">
+               <div class="categories">
+                  <figure>
+                     <img class="d-block w-100" src="{{ ($homepageextras->homepageextra_kidtileimg != '' && file_exists(public_path('images/homepageextra/'.$homepageextras->homepageextra_kidtileimg))) ? asset('images/homepageextra/'.$homepageextras->homepageextra_kidtileimg) : asset('frontend/images/kid.png') }}" alt="Kid's Collection">
+                  </figure>
+                  <div class="categories-name">
+                     <span>Kid's</span>
+                  </div>
+               </div>
+            </a>
+         </div>
+         <div class="col-lg-4 col-md-6 col-sm-12 women-section  wow fadeInDown animated" data-wow-delay="1s">
+            <a href="{{ ($homepageextras->homepageextra_womentilelink != '') ? $homepageextras->homepageextra_womentilelink : route('productsSuitableFor', ['women']) }}">
+               <div class="categories">
+                  <figure>
+                     <img class="d-block w-100" src="{{ ($homepageextras->homepageextra_womentileimg != '' && file_exists(public_path('images/homepageextra/'.$homepageextras->homepageextra_womentileimg))) ? asset('images/homepageextra/'.$homepageextras->homepageextra_womentileimg) : asset('frontend/images/women.png') }}" alt="Women's Collection">
+                  </figure>
+                  <div class="categories-name">
+                     <span>Women's</span>
+                  </div>
+               </div>
+            </a>
+         </div>
+      </div>
+   </div>
+</section>
 @if($latest_products->count() > 0)
 <section class="trending-section new-arrivals  custom-margin wow fadeInDown animated">
    <div class="container">
@@ -218,48 +261,6 @@
    </div>
 </section>
 @endif
-<section class="categories-section custom-margin">
-   <div class="container">
-      <div class="row gy-4">
-         <div class="col-lg-4 col-md-6 col-sm-12 men-section  wow fadeInDown animated">
-            <a href="{{ ($homepageextras->homepageextra_mentilelink != '') ? $homepageextras->homepageextra_mentilelink : route('productsSuitableFor', ['men']) }}">
-               <div class="categories">
-                  <figure>
-                     <img class="d-block w-100" src="{{ ($homepageextras->homepageextra_mentileimg != '' && file_exists(public_path('images/homepageextra/'.$homepageextras->homepageextra_mentileimg))) ? asset('images/homepageextra/'.$homepageextras->homepageextra_mentileimg) : asset('frontend/images/men.png') }}" alt="Men's Collection">
-                  </figure>
-                  <div class="categories-name">
-                     <span>Men's</span>
-                  </div>
-               </div>
-            </a>
-         </div>
-         <div class="col-lg-4 col-md-6 col-sm-12 kid-section  wow fadeInDown animated" data-wow-delay="0.5s">
-            <a href="{{ ($homepageextras->homepageextra_kidtilelink != '') ? $homepageextras->homepageextra_kidtilelink : route('productsSuitableFor', ['kids']) }}">
-               <div class="categories">
-                  <figure>
-                     <img class="d-block w-100" src="{{ ($homepageextras->homepageextra_kidtileimg != '' && file_exists(public_path('images/homepageextra/'.$homepageextras->homepageextra_kidtileimg))) ? asset('images/homepageextra/'.$homepageextras->homepageextra_kidtileimg) : asset('frontend/images/kid.png') }}" alt="Kid's Collection">
-                  </figure>
-                  <div class="categories-name">
-                     <span>Kid's</span>
-                  </div>
-               </div>
-            </a>
-         </div>
-         <div class="col-lg-4 col-md-6 col-sm-12 women-section  wow fadeInDown animated" data-wow-delay="1s">
-            <a href="{{ ($homepageextras->homepageextra_womentilelink != '') ? $homepageextras->homepageextra_womentilelink : route('productsSuitableFor', ['women']) }}">
-               <div class="categories">
-                  <figure>
-                     <img class="d-block w-100" src="{{ ($homepageextras->homepageextra_womentileimg != '' && file_exists(public_path('images/homepageextra/'.$homepageextras->homepageextra_womentileimg))) ? asset('images/homepageextra/'.$homepageextras->homepageextra_womentileimg) : asset('frontend/images/women.png') }}" alt="Women's Collection">
-                  </figure>
-                  <div class="categories-name">
-                     <span>Women's</span>
-                  </div>
-               </div>
-            </a>
-         </div>
-      </div>
-   </div>
-</section>
 @if($video->video_url != '')
 <section class="video-section custom-margin wow  animated zoomIn">
    <figure>

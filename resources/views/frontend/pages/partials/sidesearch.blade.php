@@ -1,4 +1,4 @@
-{{-- <div class="prices categories">
+ <div class="prices categories">
     <div class="categories-name">
         <h6>Suitable For</h6>
     </div>
@@ -6,15 +6,13 @@
         <ul>
             @foreach($search_suitable_for_groups as $search_suitable_for_group)
             <li class="checkbox"><input type="checkbox" class="filter_suitable_for"
-                    id="filter_suitable_for_{{ $loop->iteration}}" value="{{ $search_suitable_for_group['slug'] }}"
-                    @if($group_slug==$search_suitable_for_group['slug']) {{ "checked" }} @else {{ "disabled" }} @endif>
-                <label class="ps-3"
-                    for="filter_suitable_for_{{ $loop->iteration}}"><span>{{ $search_suitable_for_group['title'] }}</span></label>
+                    id="filter_suitable_for_{{ $loop->iteration}}" value="{{ $search_suitable_for_group['slug'] }}">
+                <label class="ps-3" for="filter_suitable_for_{{ $loop->iteration}}"><span>{{ $search_suitable_for_group['title'] }}</span></label>
             </li>
             @endforeach
         </ul>
     </div>
-</div> --}}
+</div>
 
 @if($categories->isNotEmpty())
 <div class="prices categories mt-4">
@@ -27,8 +25,7 @@
             <li class="checkbox"> <input type="checkbox" class="filter_categories"
                     id="filter_categories_{{ $loop->iteration}}" value="{{ $category['slug'] }}"
                     @if($categorySlug == $category['slug']) {{ "checked=checked" }} @endif>
-                <label class="ps-3"
-                    for="filter_categories_{{ $loop->iteration}}"><span>{{ $category['category_name'] }}</span></label>
+                <label class="ps-3" for="filter_categories_{{ $loop->iteration}}"><span>{{ $category['category_name'] }}</span></label>
             </li>
             @endforeach
         </ul>

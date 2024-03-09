@@ -211,39 +211,6 @@
                   </div>
                </div>
                </form>
-               <?php
-               $secret_key = '8gBm/:&EnhH.1/q'; // Replace with your eSewa secret key
-               // Your existing form fields
-               $amount =  Cart::subtotalFloat();
-               $tax_amount = 0;
-               $total_amount =  $amount + $tax_amount ;
-               $transaction_uuid = 'El'.rand(10000, 99999);
-               $product_code = 'EPAYTEST';
-               
-               // Calculate the signature
-               $message = implode(',', ["total_amount={$total_amount}", "transaction_uuid={$transaction_uuid}", "product_code={$product_code}"]);
-               $signature = hash_hmac('sha256', $message, $secret_key, true);
-               // echo base64_encode($signature);
-               ?>
-
-               <form class="e-sewa-form" action="https://rc-epay.esewa.com.np/api/epay/main/v2/form" method="POST">
-                  <input type="hidden" id="total_amount" name="total_amount" value="{{ $amount}}">
-                  <input type="hidden" id="transaction_uuid" name="transaction_uuid" value="{{$transaction_uuid}}">
-                  <input type="hidden" id="product_code" name="product_code" value="EPAYTEST">
-                  <input type="hidden" id="amount" name="amount" value="{{ $total_amount}}">
-                  <input type="hidden" id="tax_amount" name="tax_amount" value="{{$tax_amount}}">
-                  <input type="hidden" id="product_service_charge" name="product_service_charge" value="0">
-                  <input type="hidden" id="product_delivery_charge" name="product_delivery_charge" value="0">
-                  <input type="hidden" id="success_url" name="success_url" value="{{route('customer.checkout.finish')}}">
-                  <input type="hidden" id="failure_url" name="failure_url" value="http://esewa.com.np">
-                  <input type="hidden" id="signed_field_names" name="signed_field_names" value="total_amount,transaction_uuid,product_code">
-                  <input type="hidden" id="signature" name="signature" value="<?php echo base64_encode($signature); ?>">
-                  <div class="shopping-action-button justify-content-start ">
-                  <div class="button">
-                  <input type="submit" class="pay-with-e-sewa" >
-                  </div>
-               </div>
-               </form>
             </div>
          </div>
          <div class="col-lg-4 col-md-12 col-sm-12">

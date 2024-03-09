@@ -119,7 +119,7 @@
                                 </tr>
                                 <tr>
                                     <td>Payment Method</td>
-                                    <td> @if ($order->payment_method == 'cod') Cash on Delivery  @endif</td>
+                                    <td> @if ($order->payment_method == 'cod') Cash on Delivery @else E-sewa @endif</td>
                                 </tr>
                                 <tr>
                                     <td>Payment Status</td>

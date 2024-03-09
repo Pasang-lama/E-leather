@@ -103,7 +103,6 @@
                         <form>
                             <input class="me-3 product_qty qty_active" type="number" min="1" value="1" autocomplete="off" data-id="{{ $product->id }}" data-sp="{{ $product_price }}" data-title="{{ $product->product_name }}" data-size="{{ getProductAttr($product->id, 'size') }}" data-stock="{{ getProductAttr($product->id, 'stock') }}" data-fromlisting="false" />
                             <button class="add-to-cart me-3 addToCartAjax">add to cart</button>
-                            <button class="buy-now">Buy Now</button>
                         </form>
                         @if($product_sizes->isNotEmpty())
                         <div class="sizes mt-3">
@@ -208,72 +207,4 @@ $reviewCount = $product->getReview->count();
         </div>
     </div>
 </section>
-
-@if($related_products->count() > 0)
-<section class="related-product custom-margin">
-    <div class="container">
-        <div class="title text-center">
-            <h2>Related Product</h2>
-        </div>
-
-        <div class="row gy-4">
-            @foreach($related_products as $key => $related_product)
-            <div class="col-lg-3 col-md-6 col-sm-12">
-                <div class="product-card" data-pcount="{{ $loop->iteration }}" data-section="numberRelateableProducts">
-                    <div class="card-heading">
-                        <a href="{{ route('main_product', [$related_product->slug]) }}">
-                            <figure>
-                                <img class="d-block w-100" src="{{ ($related_product->product_image != '') && file_exists(public_path('images/'.$related_product->product_image)) ? asset('images/'.$related_product->product_image) : asset('images/default.png') }}" alt="{{ $related_product->product_name }}">
-                            </figure>
-                        </a>
-                        @if($related_product->discount_percent > 0)
-                        <div class="sale">
-                            <span>{{ $related_product->discount_percent }}% OFF</span>
-                        </div>
-                        @endif
-                    </div>
-                    <div class="card-body">
-                        <a href="{{ route('main_product', [$related_product->slug]) }}">
-                            <h3 class="text-center card-tittle ">{{ $related_product->product_name }}</h3>
-                        </a>
-                        <div class="rating text-center">
-                            @php
-                            $product_average = getAvgRating($related_product->id);
-                            @endphp
-                            @for($i=1; $i<=5 ; $i++) @php $selected=(($product_average> 0) && $i <= $product_average) ? "fas fa-star" : "far fa-star" @endphp <i class="{{$selected}}"></i>
-                                    @endfor
-                        </div>
-                        <div class="price text-center py-1">
-                            @if($related_product->special_price > 0)
-                            <span class="text-decoration-line-through text-muted pe-1">
-                                {{ env('DEFAULT_CURRENCY_SYMBOL','Rs.') }}{{ (formatcurrency($related_product->regular_price,'NPR')) }}
-                            </span>
-                            <span>
-                                {{ env('DEFAULT_CURRENCY_SYMBOL','Rs.') }}{{ (formatcurrency($related_product->special_price,'NPR')) }}
-                                @php
-                                ($product_price = $related_product->special_price)
-                                @endphp
-                            </span>
-                            @else
-                            <span>
-                                {{ env('DEFAULT_CURRENCY_SYMBOL','Rs.') }}{{ (formatcurrency($related_product->regular_price,'NPR')) }}
-                                @php
-                                ($product_price = $related_product->regular_price)
-                                @endphp
-                            </span>
-                            @endif
-                        </div>
-                        <div class="add-to-cart-button">
-                            <input type="number" id="numberRelateableProducts{{ $loop->iteration }}" value="1" class="product_qty d-none" data-id="{{ $related_product->id }}" data-sp="{{ $product_price }}" data-title="{{ $related_product->product_name }}"  data-size="{{ getProductAttr( $related_product->id, 'size') }}" data-stock="{{ getProductAttr( $related_product->id, 'stock') }}"/>
-                            <button class="Add-to-card-btn value-button addToCartAjax">Add to Cart <i class="fas fa-shopping-cart"></i></button>
-                            <button class="add-to-wishlist"><i class="fas fa-heart"></i></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @endforeach
-        </div>
-    </div>
-</section>
-@endif
 @endsection

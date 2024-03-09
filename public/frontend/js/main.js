@@ -1155,54 +1155,5 @@ function isCustomerLoggedIn() {
     }
 }
 
-$(".pay_btn_label").click(function (e) {
-    e.preventDefault();
-    // var site_url = $('body').attr('data-siteurl');
-    var payment_gateway = $("input[name=payment_method]:checked").val();
-    var formaction = $("#add-to-order-form").attr("action");
-    var formdata = $("#add-to-order-form").serialize();
-    var form_method = $("#add-to-order-form").attr("method");
 
-    $.ajax({
-        url: formaction,
-        method: form_method,
-        data: formdata,
-        beforeSend: function () {
-                $(".pay_btn_label")
-                    .html(
-                        "<i class='fas fa-spinner fa-pulse fa-1x'></i> " +
-                            btn_label
-                    )
-                    .prop("disabled", false);
-        },
-        success: function (response) {
-            if (response) {
-                if (response.success) {
-                    showMessage(response.success, "success");
-                    if (response.data.redirect_url != "") {
-                        window.location.href = response.data.redirect_url;
-                    } else {
-                        window.location.reload();
-                    }
-                } else {
-                    showMessage(response.error, "error");
-                }
-            }
-            $(".pay_btn_label").html(btn_label).prop("disabled", false);
-        },
-        error: function (response) {
-            if (
-                typeof response.responseJSON.errors !== "" &&
-                response.responseJSON.errors
-            ) {
-                $.each(response.responseJSON.errors, function (key, value) {
-                    showMessage(value, "error");
-                });
-            }
-            $(".pay_btn_label").html(btn_label).prop("disabled", false);
-        },
-    }).fail(function (response) {
-        $(".pay_btn_label").html(btn_label).prop("disabled", false);
-    });
-});
 

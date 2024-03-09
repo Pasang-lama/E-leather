@@ -18,9 +18,11 @@
             @include('frontend.customer.sidebar')
          </div>
          <div class="col-lg-9 col-md-12 col-sm-12">
-           <p>Payment successfull !!,  Oder Placed successfully.</p>
-
-            <div class="button mt-5">
+            <div class="alert alert-danger alert-dismissible">
+               <p>Payment unsuccessfull!!, Oder failed. Please try again.</p>
+            </div>
+            <div class="button d-flex mt-5 gap-3">
+               <a href="{{ route('customer.order.index') }} " class="btn btn-primary">View My Order</a>
                <a href="{{ route('home') }}" class="btn btn-primary"> Continue Shopping</a>
             </div>
          </div>

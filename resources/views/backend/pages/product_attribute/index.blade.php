@@ -11,20 +11,18 @@
                      <strong> Product Attributes</strong>
                   </h3>
                   <h3 class="card-title float-right">
-                     <a href="{{ route('admin.product_attribute.create', $product->id) }}"
-                        class="btn btn-primary btn-xs" title="Add Product Attributes">
-                     Create
+                     <a href="{{ route('admin.product_attribute.create', $product->id) }}" class="btn btn-primary btn-xs" title="Add Product Attributes">
+                        Create
                      </a>
-                     <a href="{{ route('admin.product_attribute.edit', $product->id) }}"
-                        class="btn btn-primary btn-xs" title="Edit Product Attributes">
+                     <a href="{{ route('admin.product_attribute.edit', $product->id) }}" class="btn btn-primary btn-xs" title="Edit Product Attributes">
                         Edit
                      </a>
                   </h3>
                </div>
                <div class="card-body">
-                  <hr/>
+                  <hr />
                   <span><b>Product Images</b></span>
-                  <hr/>
+                  <hr />
 
                   <table id="product_images" class="table table-bordered table-hover">
                      <thead>
@@ -39,20 +37,14 @@
                         <tr>
                            <td>{{ $loop->index + 1 }}</td>
                            <td>
-                              <img src="{{ asset('images/'.$attribute->product_variation_image) }}"
-                                 alt="{{ $product->product_name }}"  width="50px">
+                              <img src="{{ asset('images/'.$attribute->product_variation_image) }}" alt="{{ $product->product_name }}" width="50px">
                            </td>
                            <td>
-                              <form class="form-inline" method="post"
-                                 action="{{ route('admin.product_attribute.destroy', $attribute->id) }}"
-                                 >
+                              <form class="form-inline" method="post" action="{{ route('admin.product_attribute.destroy', $attribute->id) }}">
                                  @csrf
                                  @method('delete')
-                                 {{-- <a href="{{ route('admin.product_attribute.edit', $attribute->id) }}"
-                                    class="btn btn-secondary btn-xs mx-1"><i class="fa fa-edit"> </i></a> --}}
-                                 <button onclick="return confirm('Are you sure you want to delete this Product Attributes?')"
-                                    type="submit" class="btn btn-danger btn-xs">
-                                 <i class="fa fa-trash"></i>
+                                 <button onclick="return confirm('Are you sure you want to delete this Product Attributes?')" type="submit" class="btn btn-danger btn-xs">
+                                    <i class="fa fa-trash"></i>
                                  </button>
                               </form>
                            </td>
@@ -60,18 +52,16 @@
                         @endforeach
                      </tbody>
                   </table>
-                  
-                  <hr/>
+
+                  <hr />
                   <span><b>Size,Stock Chart</b></span>
-                  <hr/>
+                  <hr />
                   <table id="example1" class="table table-bordered table-hover">
                      <thead>
                         <tr>
                            <th>S.N</th>
                            <th>Size</th>
-                           <th class="d-none">Price</th>
                            <th>Stock</th>
-                           <th>Action</th>
                         </tr>
                      </thead>
                      <tbody>
@@ -81,23 +71,8 @@
                            <td>
                               {{ $product_size->size }}
                            </td>
-                           <td class="d-none">
-                              {{ env('DEFAULT_CURRENCY_SYMBOL','Rs.') }} {{ formatcurrency($product_size->price, "NPR") }}
-                           </td>
                            <td>
                               {{ $product_size->stock }}
-                           </td>
-                           <td>
-                              <form class="form-inline" method="post" action="">
-                                 @csrf
-                                 @method('delete')
-                                 {{-- <a href=""
-                                    class="btn btn-secondary btn-xs mx-1"><i class="fa fa-edit"> </i></a> --}}
-                                 <button onclick="return confirm('Are you sure you want to delete this record?')"
-                                    type="submit" class="btn btn-danger btn-xs">
-                                 <i class="fa fa-trash"></i>
-                                 </button>
-                              </form>
                            </td>
                         </tr>
                         @endforeach

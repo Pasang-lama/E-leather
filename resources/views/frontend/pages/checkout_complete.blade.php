@@ -29,7 +29,8 @@
             </div>
             @endif
 
-            <div class="button mt-5">
+            <div class="button d-flex mt-5 gap-3">
+            <a href="{{ route('customer.order.index') }} " class="btn btn-primary">View My Order</a>
                <a href="{{ route('home') }}" class="btn btn-primary"> Continue Shopping</a>
             </div>
          </div>

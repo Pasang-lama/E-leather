@@ -81,14 +81,6 @@
                      @endforeach
                   </table>
                </div>
-               <div class="shopping-action-button ">
-                  <div class="button me-3">
-                     <a class="continue-shopping" href="{{ route('home') }}"> Continue Shopping</a>
-                  </div>
-                  <div class="button">
-                     <a class="checkout" href="{{ route('customer.checkout.index') }}"> Checkout</a>
-                  </div>
-               </div>
                @else
                   <div class="title">
                      <h4>My WishList</h4>
